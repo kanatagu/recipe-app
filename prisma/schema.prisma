@@ -80,7 +80,7 @@ model Recipe {
   level        Level[]
   meals        Meal[]
   features     Feature[]
-  cuisines     CUISINE[]
+  cuisines     Cuisine[]
 }
 
 model Review {
@@ -116,7 +116,7 @@ enum Meal {
   BREAKFAST
   LUNCH
   DINNER
-  SIDE_DISHE
+  SIDE_DISH
   SOUP
   APPETIZER
   DESSERT
@@ -128,15 +128,16 @@ enum Feature {
   COMFORT_FOOD
   PARTY
   ONE_POT_MEAL
+  HEALTHY
 }
 
-enum CUISINE {
+enum Cuisine {
   ITALIAN
   AMERICAN
   MEXICAN
   INDIAN
   GREEK
-  JAPNESE
+  JAPANESE
   CHINESE
   KOREAN
   OTHERS

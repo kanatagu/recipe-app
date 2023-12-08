@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
 import { FiSearch, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 
-import { Container } from '@/components/container';
-import { NavSp } from '@/components/navigation/nav-sp';
+import { Container } from '@/components/layout/container';
+import { NavSp } from '@/components/layout/nav-sp';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -49,8 +49,8 @@ export const Header = () => {
             </div>
             <div className='gap-6 items-center hidden md:flex'>
               <Link href='/dashboard'>
-                <div className='flex gap-1 items-center font-semibold'>
-                  <FaHeart size={20} className='fill-rose-600' />
+                <div className='flex gap-2 items-center font-semibold text-lg'>
+                  <FaHeart size={22} className='fill-rose-500' />
                   Liked
                 </div>
               </Link>
