@@ -35,6 +35,15 @@ export function Header({ currentUser }: HeaderProps) {
 
   const { onOpen } = useSignInModal();
 
+  const likeHandler = () => {
+    if (currentUser) {
+      router.push('/favorites');
+      return;
+    }
+
+    onOpen();
+  };
+
   const logoutHandler = () => {
     signOut();
     router.push('/');
@@ -69,19 +78,19 @@ export function Header({ currentUser }: HeaderProps) {
               <Input placeholder='Search a recipe..' className='pl-10 w-96' />
             </div>
             <div className='gap-6 items-center hidden md:flex'>
-              <Link href='/dashboard'>
+              <button onClick={likeHandler}>
                 <div className='flex gap-2 items-center font-semibold text-lg'>
                   <FaHeart size={22} className='fill-rose-500' />
                   Liked
                 </div>
-              </Link>
+              </button>
 
               {currentUser ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <Avatar>
                       {/* TODO Actual Image*/}
-                      <AvatarImage src='' />
+                      <AvatarImage src={currentUser?.image || ''} />
                       <AvatarFallback>
                         <FiUser />
                       </AvatarFallback>
@@ -89,10 +98,10 @@ export function Header({ currentUser }: HeaderProps) {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent side='bottom'>
                     <DropdownMenuItem className='cursor-pointer text-base w-36'>
-                      My Posts
+                      <Link href='posts'>My Posts</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className='cursor-pointer text-base'>
-                      Account
+                      <Link href='posts'>Account</Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className='cursor-pointer text-base'>
