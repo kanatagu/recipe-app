@@ -3,32 +3,37 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
-import { FiSearch, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
+import { FiSearch, FiLogOut, FiMenu, FiX, FiUser } from 'react-icons/fi';
 
-import { Container } from '@/components/layout/container';
-import { NavSp } from '@/components/layout/nav-sp';
+import { Container, NavSp } from '@/components/layout';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
-import { Button } from '@/components/ui/button';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
-export const Header = () => {
+import { useSignInModal } from '@/store';
+
+export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const authorized = false;
+
+  const spNavClose = () => {
+    setIsMenuOpen(false);
+  };
+
+  const { onOpen } = useSignInModal();
 
   return (
-    <header className='fixed w-full bg-white z-10 shadow-sm'>
+    <header className='fixed w-full bg-white z-20 shadow-sm'>
       <div className='py-4 border-b-[1px]'>
-        <Container>
+        <Container main={false}>
           <div className='flex justify-between items-center'>
-            <div>
+            <div onClick={() => setIsMenuOpen(false)}>
               <Link href='/' className='hover:opacity-80'>
                 Recipe
               </Link>
@@ -41,7 +46,7 @@ export const Header = () => {
               {isMenuOpen ? <FiX size='34' /> : <FiMenu size='34' />}
             </button>
 
-            <NavSp isOpen={isMenuOpen} />
+            <NavSp isOpen={isMenuOpen} onClose={spNavClose} />
 
             <div className='items-center hidden md:flex'>
               <FiSearch className='relative left-7' />
@@ -55,54 +60,46 @@ export const Header = () => {
                 </div>
               </Link>
 
-              <NavigationMenu>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger>
-                      <Avatar>
-                        <AvatarImage src='https://github.com/shadcn.png' />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                    </NavigationMenuTrigger>
-                    {/* TODO fix style */}
-                    <NavigationMenuContent>
-                      <ul>
-                        <li>
-                          <Link href='/' legacyBehavior passHref>
-                            <NavigationMenuLink
-                              className={
-                                navigationMenuTriggerStyle() + 'w-[300px]'
-                              }
-                            >
-                              My Posts
-                            </NavigationMenuLink>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href='/' legacyBehavior passHref>
-                            <NavigationMenuLink
-                              className={navigationMenuTriggerStyle()}
-                            >
-                              My Account
-                            </NavigationMenuLink>
-                          </Link>
-                        </li>
-                        <hr />
-                        <li>
-                          <Button className='w-full flex gap-2' variant='ghost'>
-                            <FiLogOut />
-                            Logout
-                          </Button>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
+              {authorized ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Avatar>
+                      {/* TODO Actual Image*/}
+                      <AvatarImage src='' />
+                      <AvatarFallback>
+                        <FiUser />
+                      </AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent side='bottom'>
+                    <DropdownMenuItem className='cursor-pointer text-base w-36'>
+                      My Posts
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className='cursor-pointer text-base'>
+                      Account
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className='cursor-pointer text-base'>
+                      <FiLogOut />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <button className='flex items-center gap-2' onClick={onOpen}>
+                  <Avatar>
+                    <AvatarImage src='' />
+                    <AvatarFallback>
+                      <FiUser />
+                    </AvatarFallback>
+                  </Avatar>
+                  Sign in
+                </button>
+              )}
             </div>
           </div>
         </Container>
       </div>
     </header>
   );
-};
+}

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Rating as SimpleRating } from 'react-simple-star-rating';
 
-export const Rating = () => {
+export function Rating() {
   const [rating, setRating] = useState(0);
 
   const handleRating = (rate: number) => {
@@ -20,4 +20,4 @@ export const Rating = () => {
       /* Available Props */
     />
   );
-};
+}

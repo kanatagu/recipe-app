@@ -9,10 +9,10 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Heading } from '@/components/heading';
-import { Stars } from '@/components/stars';
+import { Heading } from '@/components/ui';
+import { Stars } from '@/components/recipe';
 
-export const RecipeCard = () => {
+export function RecipeCard() {
   const isFavorite = false;
   const rating = 3.5;
   const router = useRouter();
@@ -63,4 +63,4 @@ export const RecipeCard = () => {
       </CardContent>
     </Card>
   );
-};
+}

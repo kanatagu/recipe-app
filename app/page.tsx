@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { NavCategory } from '@/components/layout';
-import { Container } from '@/components/layout/container';
-import { RecipeCard } from '@/components/recipe-card';
-import { Heading } from '../components/heading';
+import { Container } from '@/components/layout';
+import { RecipeCard } from '@/components/recipe';
+import { Heading } from '../components/ui';
 
-export default function Home() {
+export default function Top() {
   return (
     <Container>
       <NavCategory />

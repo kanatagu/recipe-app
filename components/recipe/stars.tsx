@@ -3,7 +3,7 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 type StarsProps = {
   rating: number;
 };
-export const Stars = ({ rating }: StarsProps) => {
+export function Stars({ rating }: StarsProps) {
   const stars = [];
   const fullStars = Math.floor(rating);
   const halfStars = Math.ceil(rating - fullStars);
@@ -20,4 +20,4 @@ export const Stars = ({ rating }: StarsProps) => {
   }
 
   return <div className='flex items-center text-primary gap-1'>{stars}</div>;
-};
+}

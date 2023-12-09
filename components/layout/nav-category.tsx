@@ -6,14 +6,12 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
   MenubarTrigger,
 } from '@/components/ui/menubar';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { meals, cuisines, features, levels } from '@/const/category';
+import { meals, cuisines, features, levels } from '@/constants';
 
-export const NavCategory = () => {
+export function NavCategory() {
   const router = useRouter();
 
   return (
@@ -82,4 +80,4 @@ export const NavCategory = () => {
       <ScrollBar orientation='horizontal' />
     </ScrollArea>
   );
-};
+}

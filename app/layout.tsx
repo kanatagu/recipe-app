@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout';
+import { SignInModal, SignUpModal } from '@/components/modal';
 
 const font = Nunito({ subsets: ['latin'] });
 
@@ -20,6 +21,9 @@ export default function RootLayout({
       <body className={font.className}>
         <Header />
         <div className='pt-24'>{children}</div>
+
+        <SignInModal />
+        <SignUpModal />
       </body>
     </html>
   );
