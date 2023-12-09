@@ -1,7 +1,8 @@
 'use client';
 
+import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,12 +15,15 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Heading } from '@/components/ui';
+import { useToast } from '@/components/ui/use-toast';
 
 import { signInResolver, SignInSchema } from '@/schema';
 import { useSignInModal, useSignUpModal } from '@/store';
 
 export function SignInForm() {
   const router = useRouter();
+  const pathname = usePathname();
+  const { toast } = useToast();
   const { isOpen: isSignInOpen, onClose: onSignInClose } = useSignInModal();
   const { onOpen: onSignUpOpen } = useSignUpModal();
   const form = useForm<SignInSchema>({
@@ -32,8 +36,28 @@ export function SignInForm() {
 
   const { control, handleSubmit } = form;
 
-  const onSignUp = (data: SignInSchema) => {
-    console.log('submit!', data);
+  const onSignIn = (data: SignInSchema) => {
+    signIn('credentials', {
+      ...data,
+      redirect: false,
+    }).then((callback) => {
+      if (callback?.ok) {
+        router.refresh();
+        onSignInClose();
+
+        if (pathname === '/signin') {
+          router.push('/');
+        }
+      }
+
+      if (callback?.error) {
+        toast({
+          variant: 'destructive',
+          title: 'Invalid login credentials.',
+          description: 'Please try again.',
+        });
+      }
+    });
   };
 
   const toSignUpHandler = () => {
@@ -51,7 +75,7 @@ export function SignInForm() {
       <Heading center>Welcome Back!</Heading>
 
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSignUp)} className='space-y-6  mt-8'>
+        <form onSubmit={handleSubmit(onSignIn)} className='space-y-6  mt-8'>
           <FormField
             control={control}
             name='email'

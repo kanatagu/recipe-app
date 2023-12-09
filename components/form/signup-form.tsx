@@ -17,6 +17,7 @@ import { Heading } from '@/components/ui';
 
 import { signUpResolver, SignUpSchema } from '@/schema';
 import { useSignInModal, useSignUpModal } from '@/store';
+import { signUp } from '@/actions/auth';
 
 export function SignUpForm() {
   const router = useRouter();
@@ -35,8 +36,13 @@ export function SignUpForm() {
 
   const { control, handleSubmit } = form;
 
-  const onSignUp = (data: SignUpSchema) => {
+  const onSignUp = async (data: SignUpSchema) => {
     console.log('submit!', data);
+    try {
+      signUp(data);
+    } catch {
+      console.error('error');
+    }
   };
 
   const toSignInHandler = () => {

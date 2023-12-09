@@ -8,7 +8,6 @@ export function Rating() {
 
   const handleRating = (rate: number) => {
     setRating(rate);
-    console.log({ rating });
   };
 
   return (

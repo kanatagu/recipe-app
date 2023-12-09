@@ -6,7 +6,6 @@ import { SignInForm } from '@/components/form';
 
 export function SignInModal() {
   const { isOpen, onClose } = useSignInModal();
-  console.log('isOpen', isOpen);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

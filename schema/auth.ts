@@ -1,5 +1,3 @@
-'use client';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
@@ -29,5 +27,13 @@ const signUpSchema = z
     message: 'Password and confirmation password must match',
   });
 
+const signInSchema = z.object({
+  ...emailSchema,
+  ...nameSchema,
+});
+
 export type SignUpSchema = z.infer<typeof signUpSchema>;
 export const signUpResolver = zodResolver(signUpSchema);
+
+export type SignInSchema = z.infer<typeof signInSchema>;
+export const signInResolver = zodResolver(signInSchema);

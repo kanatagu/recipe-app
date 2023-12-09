@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
 import { FiSearch, FiLogOut, FiMenu, FiX, FiUser } from 'react-icons/fi';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 import { Container, NavSp } from '@/components/layout';
 import { Input } from '@/components/ui/input';
@@ -17,16 +19,26 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useSignInModal } from '@/store';
+import { SafeUserType } from '@/types/user';
 
-export function Header() {
+type HeaderProps = {
+  currentUser?: SafeUserType | null;
+};
+
+export function Header({ currentUser }: HeaderProps) {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const authorized = false;
 
   const spNavClose = () => {
     setIsMenuOpen(false);
   };
 
   const { onOpen } = useSignInModal();
+
+  const logoutHandler = () => {
+    signOut();
+    router.push('/');
+  };
 
   return (
     <header className='fixed w-full bg-white z-20 shadow-sm'>
@@ -46,7 +58,11 @@ export function Header() {
               {isMenuOpen ? <FiX size='34' /> : <FiMenu size='34' />}
             </button>
 
-            <NavSp isOpen={isMenuOpen} onClose={spNavClose} />
+            <NavSp
+              isOpen={isMenuOpen}
+              onClose={spNavClose}
+              currentUser={currentUser}
+            />
 
             <div className='items-center hidden md:flex'>
               <FiSearch className='relative left-7' />
@@ -60,7 +76,7 @@ export function Header() {
                 </div>
               </Link>
 
-              {authorized ? (
+              {currentUser ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <Avatar>
@@ -80,8 +96,13 @@ export function Header() {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className='cursor-pointer text-base'>
-                      <FiLogOut />
-                      Logout
+                      <button
+                        className='flex items-center gap-2 w-full'
+                        onClick={logoutHandler}
+                      >
+                        <FiLogOut />
+                        Logout
+                      </button>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

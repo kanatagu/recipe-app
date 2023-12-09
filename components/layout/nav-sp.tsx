@@ -2,23 +2,31 @@
 
 import { FaHeart } from 'react-icons/fa';
 import { FiSearch, FiLogOut } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { SafeUserType } from '@/types';
 
 type NavSpProps = {
   isOpen: boolean;
   onClose: () => void;
+  currentUser?: SafeUserType | null;
 };
 
 // TODO Move to search input and login to header
-export function NavSp({ isOpen, onClose }: NavSpProps) {
+export function NavSp({ isOpen, onClose, currentUser }: NavSpProps) {
   const router = useRouter();
-  const authorized = false;
 
-  const onClickHandler = (url: string) => {
+  const onClickItemHandler = (url: string) => {
     onClose();
     router.push(url);
+  };
+
+  const logoutHandler = () => {
+    signOut();
+    router.push('/');
   };
 
   return (
@@ -33,31 +41,35 @@ export function NavSp({ isOpen, onClose }: NavSpProps) {
           <Input placeholder='Search a recipe..' className='pl-8' />
         </div>
 
-        {authorized ? (
+        {currentUser ? (
           <>
             <div className='flex flex-col gap-4 mt-6 p-2 text-lg'>
               <button
                 className='flex gap-2 items-center font-semibold p-2'
-                onClick={() => onClickHandler('/favorites')}
+                onClick={() => onClickItemHandler('/favorites')}
               >
                 <FaHeart size={20} className='fill-rose-500' />
                 Liked
               </button>
               <button
                 className='font-semibold p-2 text-left'
-                onClick={() => onClickHandler('/posts')}
+                onClick={() => onClickItemHandler('/posts')}
               >
                 My Posts
               </button>
               <button
                 className='font-semibold p-2 text-left'
-                onClick={() => onClickHandler('/account')}
+                onClick={() => onClickItemHandler('/account')}
               >
                 Account
               </button>
             </div>
             <div className='mt-6 '>
-              <Button className='flex gap-2  w-full' variant='outline'>
+              <Button
+                className='flex gap-2  w-full'
+                variant='outline'
+                onClick={logoutHandler}
+              >
                 <FiLogOut />
                 Logout
               </Button>
@@ -68,7 +80,7 @@ export function NavSp({ isOpen, onClose }: NavSpProps) {
             <Button
               variant='outline'
               className='font-semibold p-2 w-2/4 mt-8'
-              onClick={() => onClickHandler('/signin')}
+              onClick={() => onClickItemHandler('/signin')}
             >
               Sign In
             </Button>

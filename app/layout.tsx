@@ -3,6 +3,9 @@ import { Nunito } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout';
 import { SignInModal, SignUpModal } from '@/components/modal';
+import { Toaster } from '@/components/ui/toaster';
+
+import { getCurrentUser } from '@/libs/service';
 
 const font = Nunito({ subsets: ['latin'] });
 
@@ -11,19 +14,21 @@ export const metadata: Metadata = {
   description: 'You can find recipes here.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser();
   return (
     <html lang='en'>
       <body className={font.className}>
-        <Header />
+        <Header currentUser={currentUser} />
         <div className='pt-24'>{children}</div>
 
         <SignInModal />
         <SignUpModal />
+        <Toaster />
       </body>
     </html>
   );
