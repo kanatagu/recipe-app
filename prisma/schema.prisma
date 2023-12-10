@@ -11,18 +11,18 @@ datasource db {
 }
 
 model User {
-  id            String               @id @default(cuid())
-  email         String               @unique
-  emailVerified DateTime?
-  password      String
-  name          String
-  username      String?              @unique
-  image         String?
-  favorites     FavoriteUserRecipe[]
-  postedRecipes Recipe[]
-  reviews       Review[]
-  createdAt     DateTime             @default(now())
-  updatedAt     DateTime?            @updatedAt
+  id             String               @id @default(cuid())
+  email          String               @unique
+  emailVerified  DateTime?
+  hashedPassword String?
+  name           String
+  username       String?              @unique
+  image          String?
+  favorites      FavoriteUserRecipe[]
+  postedRecipes  Recipe[]
+  reviews        Review[]
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime?            @updatedAt
 
   accounts Account[]
   sessions Session[]
@@ -65,22 +65,29 @@ model VerificationToken {
 }
 
 model Recipe {
-  id           String    @id @default(cuid())
-  title        String
-  ingredients  String[]
-  instructions String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @updatedAt
-
-  postedBy   User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
-  favoriteBy FavoriteUserRecipe[]
-  reviews    Review[]
+  id                String    @id @default(cuid())
+  userId            String
+  title             String
+  description       String?
+  image             String?
+  ingredients       String[]
+  instructions      Json[]
+  servings          Int
+  cookingTimeNumber Int
+  cookingTimeUnit   String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
 
   level    Level[]
   meals    Meal[]
   features Feature[]
   cuisines Cuisine[]
+  notes    String
+  public   Boolean   @default(false)
+
+  postedBy   User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favoriteBy FavoriteUserRecipe[]
+  reviews    Review[]
 }
 
 model Review {

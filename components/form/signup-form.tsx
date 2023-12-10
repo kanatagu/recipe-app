@@ -3,12 +3,16 @@
 import { useFormState } from 'react-dom';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { signIn } from 'next-auth/react';
 
 import { SubmitButton } from '@/components/ui/submit-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Heading } from '@/components/ui';
 import { useToast } from '@/components/ui/use-toast';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 import { useSignInModal, useSignUpModal } from '@/store';
 import { createUser } from '@/lib/actions/auth';
@@ -64,7 +68,6 @@ export function SignUpForm() {
   return (
     <div>
       <Heading center>Create Your Account</Heading>
-
       <form action={dispatch} className='space-y-6 mt-8'>
         <div className='grid w-full max-w-sm items-center gap-1.5'>
           <Label htmlFor='email'>Email</Label>
@@ -146,10 +149,25 @@ export function SignUpForm() {
         </div>
 
         <div className='text-center'>
-          <SubmitButton text='Create Account' />
+          <SubmitButton text='Create Account' className='w-full' />
         </div>
       </form>
+      <div className='text-center mt-6 text-neutral-500 font-light'>
+        <div className='flex items-center justify-between'>
+          <Separator className='w-[42%]' />
+          <p>or</p>
+          <Separator className='w-[42%]' />
+        </div>
 
+        <Button
+          variant='outline'
+          className='w-full flex items-center gap-4 mt-6'
+          onClick={() => signIn('google')}
+        >
+          <FcGoogle className='h-4 w-4' />
+          Sign up with Google
+        </Button>
+      </div>
       <div className='text-center mt-8 text-neutral-500 font-light'>
         <p>Already have an account?</p>
         <button

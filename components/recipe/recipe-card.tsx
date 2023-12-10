@@ -12,7 +12,14 @@ import { Badge } from '@/components/ui/badge';
 import { Heading } from '@/components/ui';
 import { Stars } from '@/components/recipe';
 
-export function RecipeCard() {
+import { SafeRecipeType, SafeUserType } from '@/types';
+
+type RecipeCardProps = {
+  recipe: SafeRecipeType;
+  currentUser: SafeUserType | null;
+};
+
+export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
   const isFavorite = false;
   const rating = 3.5;
   const router = useRouter();

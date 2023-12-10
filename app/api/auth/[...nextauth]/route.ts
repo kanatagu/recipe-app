@@ -24,18 +24,17 @@ export const authOptions: AuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        // Null check
         if (!credentials?.email || !credentials?.password) return null;
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user) return null;
+        if (!user || !user.hashedPassword) return null;
 
         const isPasswordCorrect = await compare(
           credentials.password,
-          user.password
+          user.hashedPassword
         );
 
         if (!isPasswordCorrect) return null;

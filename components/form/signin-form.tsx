@@ -3,6 +3,7 @@
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { useRouter, usePathname } from 'next/navigation';
+import { FcGoogle } from 'react-icons/fc';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Heading } from '@/components/ui';
 import { useToast } from '@/components/ui/use-toast';
+import { Separator } from '../ui/separator';
 
 import { signInResolver, SignInSchema } from '@/schema';
 import { useSignInModal, useSignUpModal } from '@/store';
@@ -113,12 +115,29 @@ export function SignInForm() {
           />
 
           <div className='text-center'>
-            <Button type='submit' size={'lg'} className='text-lg'>
+            <Button type='submit' size={'lg'} className='text-lg w-full'>
               Sign In
             </Button>
           </div>
         </form>
       </Form>
+
+      <div className='text-center mt-6 text-neutral-500 font-light'>
+        <div className='flex items-center justify-between'>
+          <Separator className='w-[42%]' />
+          <p>or</p>
+          <Separator className='w-[42%]' />
+        </div>
+
+        <Button
+          variant='outline'
+          className='w-full flex items-center gap-4 mt-6'
+          onClick={() => signIn('google')}
+        >
+          <FcGoogle className='h-4 w-4' />
+          Sign in with Google
+        </Button>
+      </div>
 
       <div className='text-center mt-8 text-neutral-500 font-light'>
         <p>Don&apos;t have account yet?</p>

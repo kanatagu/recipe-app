@@ -9,7 +9,7 @@ export function SignUpModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:max-w-[425px] max-h-[80%] sm:max-h-full overflow-y-auto'>
         <SignUpForm />
       </DialogContent>
     </Dialog>
