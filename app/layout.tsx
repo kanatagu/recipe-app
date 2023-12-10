@@ -5,7 +5,7 @@ import { Header } from '@/components/layout';
 import { SignInModal, SignUpModal } from '@/components/modal';
 import { Toaster } from '@/components/ui/toaster';
 
-import { getCurrentUser } from '@/libs/service';
+import { getCurrentUser } from '@/lib/service';
 
 const font = Nunito({ subsets: ['latin'] });
 

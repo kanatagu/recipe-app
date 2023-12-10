@@ -78,43 +78,45 @@ export function Header({ currentUser }: HeaderProps) {
               <Input placeholder='Search a recipe..' className='pl-10 w-96' />
             </div>
             <div className='gap-6 items-center hidden md:flex'>
-              <button onClick={likeHandler}>
-                <div className='flex gap-2 items-center font-semibold text-lg'>
-                  <FaHeart size={22} className='fill-rose-500' />
-                  Liked
-                </div>
-              </button>
-
               {currentUser ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <Avatar>
-                      {/* TODO Actual Image*/}
-                      <AvatarImage src={currentUser?.image || ''} />
-                      <AvatarFallback>
-                        <FiUser />
-                      </AvatarFallback>
-                    </Avatar>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent side='bottom'>
-                    <DropdownMenuItem className='cursor-pointer text-base w-36'>
-                      <Link href='posts'>My Posts</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className='cursor-pointer text-base'>
-                      <Link href='posts'>Account</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className='cursor-pointer text-base'>
-                      <button
-                        className='flex items-center gap-2 w-full'
-                        onClick={logoutHandler}
-                      >
-                        <FiLogOut />
-                        Logout
-                      </button>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <>
+                  <button onClick={likeHandler}>
+                    <div className='flex gap-2 items-center font-semibold text-lg'>
+                      <FaHeart size={22} className='fill-rose-500' />
+                      Liked
+                    </div>
+                  </button>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Avatar>
+                        {/* TODO Actual Image*/}
+                        <AvatarImage src={currentUser?.image || ''} />
+                        <AvatarFallback>
+                          <FiUser />
+                        </AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side='bottom'>
+                      <DropdownMenuItem className='cursor-pointer text-base w-36'>
+                        <Link href='posts'>My Posts</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className='cursor-pointer text-base'>
+                        <Link href='posts'>Account</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className='cursor-pointer text-base'>
+                        <button
+                          className='flex items-center gap-2 w-full'
+                          onClick={logoutHandler}
+                        >
+                          <FiLogOut />
+                          Logout
+                        </button>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </>
               ) : (
                 <button className='flex items-center gap-2' onClick={onOpen}>
                   <Avatar>

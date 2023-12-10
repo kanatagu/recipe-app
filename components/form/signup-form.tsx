@@ -1,49 +1,33 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useFormState } from 'react-dom';
+import { useRouter, usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { SubmitButton } from '@/components/ui/submit-button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Heading } from '@/components/ui';
+import { useToast } from '@/components/ui/use-toast';
 
-import { signUpResolver, SignUpSchema } from '@/schema';
 import { useSignInModal, useSignUpModal } from '@/store';
-import { signUp } from '@/actions/auth';
+import { createUser } from '@/lib/actions/auth';
 
 export function SignUpForm() {
   const router = useRouter();
+  const pathname = usePathname();
+  const { toast } = useToast();
   const { onOpen: onSignInOpen } = useSignInModal();
   const { isOpen: isSignUpOpen, onClose: onSignUpClose } = useSignUpModal();
 
-  const form = useForm<SignUpSchema>({
-    resolver: signUpResolver,
-    defaultValues: {
-      email: '',
-      name: '',
-      password: '',
-      confirmationPassword: '',
-    },
-  });
-
-  const { control, handleSubmit } = form;
-
-  const onSignUp = async (data: SignUpSchema) => {
-    console.log('submit!', data);
-    try {
-      signUp(data);
-    } catch {
-      console.error('error');
-    }
+  const initialState = {
+    errors: {},
+    values: {},
+    message: null,
+    status: null,
   };
+
+  const [state, dispatch] = useFormState(createUser, initialState);
 
   const toSignInHandler = () => {
     if (isSignUpOpen) {
@@ -52,94 +36,119 @@ export function SignUpForm() {
       return;
     }
 
-    router.push('/signin');
+    if (pathname === '/signup') {
+      router.push('/signin');
+    }
   };
+
+  useEffect(() => {
+    if (state.status === 'Error') {
+      toast({
+        variant: 'destructive',
+        title: 'Something went wrong...',
+        description: 'Please try again.',
+      });
+    }
+
+    if (state.status === 'Success') {
+      toast({
+        variant: 'success',
+        title: 'Successfully created your account!',
+        description: 'Please login to continue.',
+      });
+      toSignInHandler();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <div>
       <Heading center>Create Your Account</Heading>
 
-      <Form {...form}>
-        <form onSubmit={handleSubmit(onSignUp)} className='space-y-6 mt-8'>
-          <FormField
-            control={control}
+      <form action={dispatch} className='space-y-6 mt-8'>
+        <div className='grid w-full max-w-sm items-center gap-1.5'>
+          <Label htmlFor='email'>Email</Label>
+          <Input
+            type='email'
+            id='email'
             name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='example@gmail.com'
-                    {...field}
-                    className='text-sm md:text-base'
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder='example@gmail.com'
           />
+          {state?.errors?.email &&
+            state.errors.email.map((error) => (
+              <div
+                key={error}
+                className='text-red-600 text-sm'
+                id='name-error'
+                aria-live='polite'
+              >
+                {error}
+              </div>
+            ))}
+        </div>
 
-          <FormField
-            control={control}
-            name='name'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='John Doe'
-                    {...field}
-                    className='text-sm md:text-base'
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <div className='grid w-full max-w-sm items-center gap-1.5'>
+          <Label htmlFor='name'>Name</Label>
+          <Input type='text' id='name' name='name' placeholder='John Doe' />
+          {state?.errors?.name &&
+            state.errors.name.map((error) => (
+              <div
+                key={error}
+                className='text-red-600 text-sm'
+                id='name-error'
+                aria-live='polite'
+              >
+                {error}
+              </div>
+            ))}
+        </div>
 
-          <FormField
-            control={control}
+        <div className='grid w-full max-w-sm items-center gap-1.5'>
+          <Label htmlFor='password'>Password</Label>
+          <Input
+            type='password'
+            id='password'
             name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='Password'
-                    {...field}
-                    className='text-sm md:text-base'
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder='Password'
           />
+          {state?.errors?.password &&
+            state.errors.password.map((error) => (
+              <div
+                key={error}
+                className='text-red-600 text-sm'
+                id='name-error'
+                aria-live='polite'
+              >
+                {error}
+              </div>
+            ))}
+        </div>
 
-          <FormField
-            control={control}
+        <div className='grid w-full max-w-sm items-center gap-1.5'>
+          <Label htmlFor='confirmationPassword'>Confirm Password</Label>
+          <Input
+            type='password'
+            id='confirmationPassword'
             name='confirmationPassword'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='Password'
-                    {...field}
-                    className='text-sm md:text-base'
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder='Password'
           />
+          {state?.errors?.confirmationPassword &&
+            state.errors.confirmationPassword.map((error) => (
+              <div
+                key={error}
+                className='text-red-600 text-sm'
+                id='name-error'
+                aria-live='polite'
+              >
+                {error}
+              </div>
+            ))}
+        </div>
 
-          <div className='text-center'>
-            <Button type='submit' size={'lg'} className='text-lg'>
-              Create Account
-            </Button>
-          </div>
-        </form>
-      </Form>
+        <div className='text-center'>
+          <SubmitButton text='Create Account' />
+        </div>
+      </form>
 
       <div className='text-center mt-8 text-neutral-500 font-light'>
         <p>Already have an account?</p>
