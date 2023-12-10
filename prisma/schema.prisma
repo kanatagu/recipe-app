@@ -85,9 +85,10 @@ model Recipe {
   notes    String
   public   Boolean   @default(false)
 
-  postedBy   User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  favoriteBy FavoriteUserRecipe[]
-  reviews    Review[]
+  postedBy      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favoriteBy    FavoriteUserRecipe[]
+  reviews       Review[]
+  averageRating Int?
 }
 
 model Review {

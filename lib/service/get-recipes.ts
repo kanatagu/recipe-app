@@ -2,56 +2,55 @@ import { Level, Meal, Feature, Cuisine } from '@prisma/client';
 import prisma from '@/lib/prisma';
 
 export type RecipeParams = {
-  meals?: Meal;
-  features?: Feature;
-  cuisines?: Cuisine;
+  meal?: Meal;
+  feature?: Feature;
+  cuisine?: Cuisine;
   level?: Level;
 };
 
 export async function getRecipes(params: RecipeParams) {
   try {
+    const { meal, feature, cuisine, level } = params;
+
+    let query = {};
+
+    if (meal) {
+      query = {
+        meals: {
+          has: meal,
+        },
+      };
+    }
+
+    if (feature) {
+      query = {
+        features: {
+          has: feature,
+        },
+      };
+    }
+
+    if (cuisine) {
+      query = {
+        cuisines: {
+          has: cuisine,
+        },
+      };
+    }
+
+    if (level) {
+      query = {
+        level: {
+          has: level,
+        },
+      };
+    }
+
     const recipes = await prisma.recipe.findMany({
       where: {
         public: true,
-        // meals: {
-        //   // has: params.meals,
-        // },
-        // features: {
-        //   // has: params.features,
-        // },
-        // cuisines: {
-        //   // has: params.cuisines,
-        // },
-        // level: {
-        //   // has: params.level,
-        // },
+        ...query,
       },
-      // select: {
-      //   id: true,
-      //   title: true,
-      //   description: true,
-      //   image: true,
-      //   ingredients: true,
-      //   instructions: true,
-      //   servings: true,
-      //   cookingTimeNumber: true,
-      //   cookingTimeUnit: true,
-      //   level: true,
-      //   meals: true,
-      //   features: true,
-      //   cuisines: true,
-      //   notes: true,
-      //   public: true,
-      //   createdAt: true,
-      //   updatedAt: true,
-      //   user: {
-      //     select: {
-      //       id: true,
-      //       name: true,
-      //       image: true,
-      //     },
-      //   },
-      // },
       orderBy: {
         createdAt: 'desc',
       },

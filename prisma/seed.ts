@@ -4,11 +4,6 @@ import { hash } from 'bcrypt';
 const prisma = new PrismaClient();
 
 const recipes = (userId: string) => {
-  const level: Level[] = [Level['EASY']];
-  const meals: Meal[] = [Meal['LUNCH']];
-  const features: Feature[] = [Feature['CLASSIC'], Feature['ONE_POT_MEAL']];
-  const cuisines: Cuisine[] = [Cuisine['ITALIAN']];
-
   return [
     {
       userId: userId,
@@ -30,10 +25,10 @@ const recipes = (userId: string) => {
       servings: 1,
       cookingTimeNumber: 1,
       cookingTimeUnit: 'hour',
-      level: level,
-      meals: meals,
-      features: features,
-      cuisines: cuisines,
+      level: [Level['EASY']],
+      meals: [Meal['LUNCH']],
+      features: [Feature['CLASSIC'], Feature['ONE_POT_MEAL']],
+      cuisines: [Cuisine['ITALIAN']],
       notes: 'Add salt to taste',
       public: true,
     },
@@ -51,10 +46,10 @@ const recipes = (userId: string) => {
       servings: 2,
       cookingTimeNumber: 30,
       cookingTimeUnit: 'minutes',
-      level: level,
-      meals: meals,
-      features: features,
-      cuisines: cuisines,
+      level: [Level['EASY']],
+      meals: [Meal['LUNCH']],
+      features: [Feature['COMFORT_FOOD']],
+      cuisines: [Cuisine['ITALIAN']],
       notes: 'Add salt to taste',
       public: true,
     },
@@ -72,12 +67,33 @@ const recipes = (userId: string) => {
       servings: 2,
       cookingTimeNumber: 2,
       cookingTimeUnit: 'hour',
-      level: level,
-      meals: meals,
-      features: features,
-      cuisines: cuisines,
+      level: [Level['MIDDLE']],
+      meals: [Meal['DINNER']],
+      features: [Feature['PARTY']],
+      cuisines: [Cuisine['ITALIAN']],
       notes: 'Add salt to taste',
       public: false,
+    },
+    {
+      userId: userId,
+      title: 'Tacos',
+      description: 'Tacos with chicken',
+      image:
+        'https://res.cloudinary.com/dgqvhw33f/image/upload/v1702176627/xokmbwafdz9tqmoelcbt.jpg',
+      ingredients: ['chicken 100g', 'tortilla 100g', '1 cup of water'],
+      instructions: [
+        { step: 1, description: 'Cook chicken', image: null },
+        { step: 2, description: 'Cook tortilla', image: null },
+      ],
+      servings: 4,
+      cookingTimeNumber: 1,
+      cookingTimeUnit: 'hour',
+      level: [Level['DIFFICULT']],
+      meals: [Meal['APPETIZER']],
+      features: [Feature['CLASSIC'], Feature['ONE_POT_MEAL']],
+      cuisines: [Cuisine['MEXICAN']],
+      notes: 'Add salt to taste',
+      public: true,
     },
   ];
 };
@@ -90,7 +106,7 @@ async function main() {
     create: {
       email: 'test@test.com',
       name: 'Test User',
-      password,
+      hashedPassword: password,
     },
   });
 
