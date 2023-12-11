@@ -1,7 +1,7 @@
 import { EmptyResult, NavCategory } from '@/components/layout';
 import { Container } from '@/components/layout';
 import { RecipeCard } from '@/components/recipe';
-import { Heading } from '../components/ui';
+import { Heading } from '@/components/ui';
 
 import { getCurrentUser, getRecipes, RecipeParams } from '@/lib/service';
 

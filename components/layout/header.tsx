@@ -90,7 +90,6 @@ export function Header({ currentUser }: HeaderProps) {
                   <DropdownMenu>
                     <DropdownMenuTrigger>
                       <Avatar>
-                        {/* TODO Actual Image*/}
                         <AvatarImage src={currentUser?.image || ''} />
                         <AvatarFallback>
                           <FiUser />

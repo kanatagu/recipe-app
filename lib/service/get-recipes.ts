@@ -6,11 +6,12 @@ export type RecipeParams = {
   feature?: Feature;
   cuisine?: Cuisine;
   level?: Level;
+  take?: number;
 };
 
 export async function getRecipes(params: RecipeParams) {
   try {
-    const { meal, feature, cuisine, level } = params;
+    const { meal, feature, cuisine, level, take } = params;
 
     let query = {};
 
@@ -51,6 +52,7 @@ export async function getRecipes(params: RecipeParams) {
         public: true,
         ...query,
       },
+      take: take || undefined,
       orderBy: {
         createdAt: 'desc',
       },

@@ -13,6 +13,8 @@ export function Rating() {
   return (
     <SimpleRating
       onClick={handleRating}
+      SVGstyle={{ display: 'inline' }}
+      size={24}
       // onPointerEnter={onPointerEnter}
       // onPointerLeave={onPointerLeave}
       // onPointerMove={onPointerMove}

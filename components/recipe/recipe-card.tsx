@@ -1,12 +1,10 @@
 'use client';
 
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Heading } from '@/components/ui';
 import { Stars } from '@/components/recipe';
@@ -56,7 +54,7 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
           <Image
             fill
             src={recipe.image || '/images/default_image.jpg'}
-            alt='Image'
+            alt='Recipe Image'
             className='object-cover h-full w-full group-hover:scale-110 transition'
           />
         </AspectRatio>
