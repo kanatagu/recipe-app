@@ -75,7 +75,10 @@ export function Header({ currentUser }: HeaderProps) {
 
             <div className='items-center hidden md:flex'>
               <FiSearch className='relative left-7' />
-              <Input placeholder='Search a recipe..' className='pl-10 w-96' />
+              <Input
+                placeholder='Search a recipe..'
+                className='pl-10 w-96 text-base'
+              />
             </div>
             <div className='gap-6 items-center hidden md:flex'>
               {currentUser ? (
@@ -97,14 +100,14 @@ export function Header({ currentUser }: HeaderProps) {
                       </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side='bottom'>
-                      <DropdownMenuItem className='cursor-pointer text-base w-36'>
+                      <DropdownMenuItem className='cursor-pointer text-lg w-36'>
                         <Link href='posts'>My Posts</Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem className='cursor-pointer text-base'>
+                      <DropdownMenuItem className='cursor-pointer text-lg'>
                         <Link href='posts'>Account</Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className='cursor-pointer text-base'>
+                      <DropdownMenuItem className='cursor-pointer text-lg'>
                         <button
                           className='flex items-center gap-2 w-full'
                           onClick={logoutHandler}

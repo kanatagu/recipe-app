@@ -10,7 +10,7 @@ export function Container({
   maxWidth = 'max-w-[1200px]',
 }: ContainerProps) {
   return (
-    <div className={`${maxWidth} mx-auto md:px-10 px-4 ${main && 'pb-10'}`}>
+    <div className={`${maxWidth} mx-auto md:px-10 px-4 ${main && 'pb-20'}`}>
       {children}
     </div>
   );

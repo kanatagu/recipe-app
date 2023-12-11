@@ -19,7 +19,6 @@ type RecipeCardProps = {
 };
 
 export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
-  const isFavorite = false;
   const router = useRouter();
 
   const showThreeTags = () => {
@@ -46,7 +45,7 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
 
   return (
     <Card
-      className='group cursor-pointer'
+      className='group cursor-pointer flex flex-col'
       onClick={() => router.push(`/recipes/${recipe.id}`)}
     >
       <CardHeader className='p-0 relative overflow-hidden'>
@@ -66,10 +65,10 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
         )}
       </CardHeader>
 
-      <CardContent className='p-4'>
-        <div className='flex gap-3'>
+      <CardContent className='p-4 flex flex-col flex-grow'>
+        <div className='flex gap-3 flex-wrap flex-grow items-start'>
           {showThreeTags().map((tag) => (
-            <Badge variant='outline' key={tag}>
+            <Badge variant='outline' key={tag} className='flex-grow-0'>
               {tag}
             </Badge>
           ))}

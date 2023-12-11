@@ -21,9 +21,9 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
   const directions: RecipeDirection[] = JSON.parse(directionsString);
 
   return (
-    <div className='flex flex-col gap-10 mt-10'>
-      <div className='relative flex flex-col gap-6'>
-        <div className='flex items-center'>
+    <div className='flex flex-col gap-6 sm:gap-10 mt-4 sm:mt-6'>
+      <div className='relative flex flex-col gap-4 sm:gap-6'>
+        <div className='flex items-center justify-between'>
           <Heading>{recipe.title}</Heading>
           <FavoriteButton
             currentUser={currentUser}
@@ -32,7 +32,7 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
           />
         </div>
 
-        <div className='flex items-center gap-8'>
+        <div className='flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8'>
           <div className='flex items-center gap-2'>
             <Avatar>
               <AvatarImage src={currentUser?.image || ''} />
@@ -43,7 +43,7 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
             <div>{recipe.postedBy.username || 'Posted User'}</div>
           </div>
           <div className='flex gap-4 items-center'>
-            <span className='text-sm'>{recipe.averageRating || 0} rating</span>
+            <span>{recipe.averageRating || 0} rating</span>
             <div className='flex gap-2'>
               <Stars rating={recipe.averageRating || 0} />
               <span>( {recipe.reviews.length} )</span>
@@ -61,21 +61,22 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
           />
         </div>
 
-        <p>{recipe.description}</p>
+        <p className='sm:text-lg'>{recipe.description}</p>
+
         <div>
           <Separator className='my-3' />
-          <div className='flex justify-between px-10 items-center'>
-            <div className='flex gap-20'>
+          <div className='flex justify-between px-4 sm:px-10 items-center'>
+            <div className='flex flex-col sm:flex-row gap-2 md:gap-20'>
               <div>
-                <span className='font-semibold'>Level</span> :{' '}
+                <span className='font-semibold'>Level : </span>
                 <span>{recipe.level}</span>
               </div>
               <div>
-                <span className='font-semibold'>Servings</span> :{' '}
+                <span className='font-semibold'>Servings : </span>
                 <span>{recipe.servings}</span>
               </div>
               <div>
-                <span className='font-semibold'>Time</span> :{' '}
+                <span className='font-semibold'>Time : </span>
                 <span>{recipe.cookingTimeNumber} </span>
                 <span>{recipe.cookingTimeUnit}</span>
               </div>
@@ -89,7 +90,7 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
 
       <div>
         <Heading as='h2'>Ingredients</Heading>
-        <ul className='list-disc px-4 mt-4'>
+        <ul className='list-disc px-4 mt-4 sm:text-lg'>
           {recipe.ingredients.map((ingredient) => (
             <li key={ingredient}>{ingredient}</li>
           ))}
@@ -102,7 +103,7 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
           {directions.map((direction) => (
             <li key={direction.step} className='mt-6'>
               <span className='font-bold'>STEP {direction.step}</span>
-              <div className='flex gap-10 mt-3'>
+              <div className='flex flex-col sm:flex-row gap-2 sm:gap-10 mt-2 sm:text-lg'>
                 <p className='w-full'>{direction.content}</p>
                 {direction.image && (
                   <Image
@@ -110,7 +111,7 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
                     alt={`Picture of ${direction.step}`}
                     width={600}
                     height={400}
-                    className='object-contain w-1/3 flex-shrink-0'
+                    className='object-contain w-full sm:w-1/3 flex-shrink-0'
                   />
                 )}
               </div>
@@ -121,13 +122,10 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
 
       <div>
         <Heading as='h2'>Note</Heading>
-        <p className='mt-4'>{recipe.notes}</p>
+        <p className='mt-4 sm:text-lg'>{recipe.notes}</p>
       </div>
 
-      <Review
-        averageRating={recipe.averageRating || 0}
-        reviews={recipe.reviews}
-      />
+      <Review reviews={recipe.reviews} currentUser={currentUser} />
 
       <RecommendRecipes currentUser={currentUser} />
     </div>
