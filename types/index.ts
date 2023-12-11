@@ -1,2 +1,2 @@
-export type { SafeRecipeType } from './recipe';
+export type { SafeRecipeType, SafeFavoriteType } from './recipe';
 export type { SafeUserType } from './user';

@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 import { useSignInModal, useSignUpModal } from '@/store';
-import { createUser } from '@/lib/actions/auth';
+import { createUser } from '@/lib/actions';
 
 export function SignUpForm() {
   const router = useRouter();
@@ -50,7 +50,7 @@ export function SignUpForm() {
       toast({
         variant: 'destructive',
         title: 'Something went wrong...',
-        description: 'Please try again.',
+        description: 'Please try again later.',
       });
     }
 

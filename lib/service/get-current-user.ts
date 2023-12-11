@@ -16,12 +16,31 @@ export async function getCurrentUser() {
       where: {
         email: session.user.email,
       },
+      include: {
+        postedRecipes: true,
+        favorites: true,
+      },
     });
 
     if (!currentUser) return null;
 
+    const safeRecipe = currentUser.postedRecipes.map((recipe) => ({
+      ...recipe,
+      createdAt: recipe.createdAt?.toISOString(),
+      updatedAt: recipe.updatedAt?.toISOString() || null,
+    }));
+
+    const safeFavorite = currentUser.favorites.map((favorite) => ({
+      ...favorite,
+      createdAt: favorite.createdAt?.toISOString(),
+      updatedAt: favorite.updatedAt?.toISOString() || null,
+    }));
+
+    const { hashedPassword, ...rest } = currentUser;
     return {
-      ...currentUser,
+      ...rest,
+      postedRecipes: safeRecipe,
+      favorites: safeFavorite,
       createdAt: currentUser.createdAt?.toISOString(),
       updatedAt: currentUser.updatedAt?.toISOString() || null,
       emailVerified: currentUser.emailVerified?.toISOString() || null,

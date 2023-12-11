@@ -100,7 +100,7 @@ const recipes = (userId: string) => {
 
 async function main() {
   const password = await hash('password', 10);
-  const user = await prisma.user.upsert({
+  const user1 = await prisma.user.upsert({
     where: { email: 'test@test.com' },
     update: {},
     create: {
@@ -110,11 +110,45 @@ async function main() {
     },
   });
 
-  for (const recipe of recipes(user.id)) {
+  const user2 = await prisma.user.upsert({
+    where: { email: 'test2@test.com' },
+    update: {},
+    create: {
+      email: 'test2@test.com',
+      name: 'Test User2',
+      hashedPassword: password,
+    },
+  });
+
+  for (const recipe of recipes(user1.id)) {
     await prisma.recipe.create({
       data: recipe,
     });
   }
+
+  await prisma.recipe.create({
+    data: {
+      userId: user2.id,
+      title: 'Chicken Fry',
+      description: 'Chicken Fry with sauce',
+      image:
+        'https://res.cloudinary.com/dgqvhw33f/image/upload/v1702247291/grvltn5ynlbscz6bdgav.jpg',
+      ingredients: ['chicken 100g', 'rice 100g', '1 cup of water'],
+      instructions: [
+        { step: 1, description: 'Cook chicken', image: null },
+        { step: 2, description: 'Cook rice', image: null },
+      ],
+      servings: 4,
+      cookingTimeNumber: 1,
+      cookingTimeUnit: 'hour',
+      level: [Level['MIDDLE']],
+      meals: [Meal['DINNER']],
+      features: [Feature['COMFORT_FOOD']],
+      cuisines: [Cuisine['JAPANESE']],
+      notes: 'Add salt to taste',
+      public: true,
+    },
+  });
 
   console.log('Seed data created successfully');
 }

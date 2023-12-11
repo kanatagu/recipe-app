@@ -1,7 +1,6 @@
 'use client';
 
-import { FaHeart } from 'react-icons/fa';
-import { FiHeart } from 'react-icons/fi';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -11,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Heading } from '@/components/ui';
 import { Stars } from '@/components/recipe';
+import { FavoriteButton, EditDeleteButton } from '@/components/recipe';
 
 import { SafeRecipeType, SafeUserType } from '@/types';
 import { meals, features, cuisines, levels } from '@/constants';
@@ -22,7 +22,6 @@ type RecipeCardProps = {
 
 export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
   const isFavorite = false;
-  const rating = 3.5;
   const router = useRouter();
 
   const showThreeTags = () => {
@@ -43,10 +42,14 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
     return displayTags;
   };
 
+  const isMyPost = currentUser?.postedRecipes.some(
+    (postedRecipe) => postedRecipe.id === recipe.id
+  );
+
   return (
     <Card
       className='group cursor-pointer'
-      onClick={() => router.push(`/recipes/${1}`)}
+      onClick={() => router.push(`/recipes/${recipe.id}`)}
     >
       <CardHeader className='p-0 relative overflow-hidden'>
         <AspectRatio ratio={3 / 2}>
@@ -57,19 +60,12 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
             className='object-cover h-full w-full group-hover:scale-110 transition'
           />
         </AspectRatio>
-        <Button
-          className={`absolute right-2 z-10 rounded-full ${
-            isFavorite ? 'bg-red-200' : 'bg-white'
-          }`}
-          variant='outline'
-          size='icon'
-        >
-          {isFavorite ? (
-            <FaHeart size={18} className='fill-rose-500' />
-          ) : (
-            <FiHeart size={18} className='text-gray-400' />
-          )}
-        </Button>
+
+        {isMyPost ? (
+          <EditDeleteButton recipeId={recipe.id} />
+        ) : (
+          <FavoriteButton currentUser={currentUser} recipeId={recipe.id} />
+        )}
       </CardHeader>
 
       <CardContent className='p-4'>
