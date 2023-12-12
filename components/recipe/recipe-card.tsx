@@ -12,6 +12,7 @@ import { FavoriteButton, EditDeleteButton } from '@/components/recipe';
 
 import { SafeRecipeType, SafeUserType } from '@/types';
 import { meals, features, cuisines, levels } from '@/constants';
+import { calculateAverageRating } from '@/lib/utils';
 
 type RecipeCardProps = {
   recipe: SafeRecipeType;
@@ -42,6 +43,8 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
   const isMyPost = currentUser?.postedRecipes.some(
     (postedRecipe) => postedRecipe.id === recipe.id
   );
+
+  const averageRating = calculateAverageRating(recipe.reviews);
 
   return (
     <Card
@@ -79,8 +82,8 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
         </div>
 
         <div className='mt-4 flex gap-4'>
-          <Stars rating={recipe.averageRating || 0} />
-          <span className='text-sm'>{recipe.averageRating || 0} rating</span>
+          <Stars rating={averageRating} />
+          <span className='text-sm'>{averageRating} rating</span>
         </div>
       </CardContent>
     </Card>

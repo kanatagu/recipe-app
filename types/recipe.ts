@@ -1,8 +1,10 @@
 import { Recipe, FavoriteUserRecipe, User, Review } from '@prisma/client';
+import { SafeUserType } from '@/types';
 
 export type SafeRecipeType = Omit<Recipe, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
   updatedAt: string | null;
+  reviews?: SafeReviewType[];
 };
 
 type RecipeDetailsUser = Pick<User, 'id' | 'username' | 'image'>;
@@ -16,7 +18,7 @@ export type SafeRecipeDetailType = Omit<Recipe, 'createdAt' | 'updatedAt'> & {
 
 export type SafeReviewType = Omit<Review, 'createdAt'> & {
   createdAt: string;
-  reviewedBy: User;
+  reviewedBy?: SafeUserType | User;
 };
 
 export type SafeFavoriteType = Omit<

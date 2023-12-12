@@ -12,8 +12,6 @@ export default async function RecipeDetails({
   const recipe = await getRecipe(params.id);
   const currentUser = await getCurrentUser();
 
-  console.log(recipe);
-
   if (!recipe) return <EmptyResult />;
 
   return (

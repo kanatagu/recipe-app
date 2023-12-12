@@ -79,14 +79,14 @@ export function SignUpForm() {
           />
           {state?.errors?.email &&
             state.errors.email.map((error) => (
-              <div
+              <p
                 key={error}
                 className='text-red-600 text-sm'
                 id='name-error'
                 aria-live='polite'
               >
                 {error}
-              </div>
+              </p>
             ))}
         </div>
 
@@ -95,14 +95,14 @@ export function SignUpForm() {
           <Input type='text' id='name' name='name' placeholder='John Doe' />
           {state?.errors?.name &&
             state.errors.name.map((error) => (
-              <div
+              <p
                 key={error}
                 className='text-red-600 text-sm'
                 id='name-error'
                 aria-live='polite'
               >
                 {error}
-              </div>
+              </p>
             ))}
         </div>
 
@@ -116,14 +116,14 @@ export function SignUpForm() {
           />
           {state?.errors?.password &&
             state.errors.password.map((error) => (
-              <div
+              <p
                 key={error}
                 className='text-red-600 text-sm'
                 id='name-error'
                 aria-live='polite'
               >
                 {error}
-              </div>
+              </p>
             ))}
         </div>
 
@@ -137,14 +137,14 @@ export function SignUpForm() {
           />
           {state?.errors?.confirmationPassword &&
             state.errors.confirmationPassword.map((error) => (
-              <div
+              <p
                 key={error}
                 className='text-red-600 text-sm'
                 id='name-error'
                 aria-live='polite'
               >
                 {error}
-              </div>
+              </p>
             ))}
         </div>
 

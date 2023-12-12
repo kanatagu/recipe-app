@@ -6,9 +6,14 @@ import { Button, ButtonProps } from '@/components/ui/button';
 
 type SubmitButtonProps = {
   text: string;
+  showPendingText?: boolean;
 } & ButtonProps;
 
-export function SubmitButton({ text, ...props }: SubmitButtonProps) {
+export function SubmitButton({
+  text,
+  showPendingText = true,
+  ...props
+}: SubmitButtonProps) {
   const { pending } = useFormStatus();
 
   return (
@@ -21,8 +26,10 @@ export function SubmitButton({ text, ...props }: SubmitButtonProps) {
     >
       {pending ? (
         <>
-          <PiSpinnerGap className='mr-3 animate-spin' />
-          Please wait
+          <PiSpinnerGap
+            className={`${showPendingText && 'mr-3'} animate-spin`}
+          />
+          {showPendingText && 'Please wait'}
         </>
       ) : (
         text

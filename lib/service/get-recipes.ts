@@ -52,6 +52,9 @@ export async function getRecipes(params: RecipeParams) {
         public: true,
         ...query,
       },
+      include: {
+        reviews: true,
+      },
       take: take || undefined,
       orderBy: {
         createdAt: 'desc',
@@ -60,6 +63,10 @@ export async function getRecipes(params: RecipeParams) {
 
     const safeRecipes = recipes.map((recipe) => ({
       ...recipe,
+      reviews: recipe.reviews.map((review) => ({
+        ...review,
+        createdAt: review.createdAt.toISOString(),
+      })),
       createdAt: recipe.createdAt.toISOString(),
       updatedAt: recipe.updatedAt?.toISOString() || null,
     }));

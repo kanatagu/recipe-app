@@ -37,7 +37,7 @@ export const FavoriteButton = ({
       return onOpen();
     }
 
-    await addFavoriteRecipe({ recipeId, userId: currentUser.id })
+    await addFavoriteRecipe({ recipeId })
       .then(() => {
         router.refresh();
         toast({

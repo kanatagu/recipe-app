@@ -16,7 +16,7 @@ model User {
   emailVerified  DateTime?
   hashedPassword String?
   name           String
-  username       String?              @unique
+  username       String
   image          String?
   favorites      FavoriteUserRecipe[]
   postedRecipes  Recipe[]
@@ -88,7 +88,6 @@ model Recipe {
   postedBy      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   favoriteBy    FavoriteUserRecipe[]
   reviews       Review[]
-  averageRating Int?
 }
 
 model Review {

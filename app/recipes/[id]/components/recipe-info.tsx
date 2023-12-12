@@ -10,6 +10,7 @@ import { Review } from './review';
 import { RecommendRecipes } from './recommend-recipes';
 
 import { SafeRecipeDetailType, SafeUserType, RecipeDirection } from '@/types';
+import { calculateAverageRating } from '@/lib/utils';
 
 type RecipeInfoProps = {
   recipe: SafeRecipeDetailType;
@@ -19,6 +20,8 @@ type RecipeInfoProps = {
 export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
   const directionsString = JSON.stringify(recipe.directions);
   const directions: RecipeDirection[] = JSON.parse(directionsString);
+
+  const averageRating = calculateAverageRating(recipe.reviews);
 
   return (
     <div className='flex flex-col gap-6 sm:gap-10 mt-4 sm:mt-6'>
@@ -40,12 +43,12 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
                 <FiUser />
               </AvatarFallback>
             </Avatar>
-            <div>{recipe.postedBy.username || 'Posted User'}</div>
+            <div>{recipe.postedBy.username}</div>
           </div>
           <div className='flex gap-4 items-center'>
-            <span>{recipe.averageRating || 0} rating</span>
+            <span>{averageRating} rating</span>
             <div className='flex gap-2'>
-              <Stars rating={recipe.averageRating || 0} />
+              <Stars rating={averageRating} />
               <span>( {recipe.reviews.length} )</span>
             </div>
           </div>
@@ -125,7 +128,11 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
         <p className='mt-4 sm:text-lg'>{recipe.notes}</p>
       </div>
 
-      <Review reviews={recipe.reviews} currentUser={currentUser} />
+      <Review
+        reviews={recipe.reviews}
+        currentUser={currentUser}
+        recipeId={recipe.id}
+      />
 
       <RecommendRecipes currentUser={currentUser} />
     </div>

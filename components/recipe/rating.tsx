@@ -3,16 +3,13 @@
 import { useState } from 'react';
 import { Rating as SimpleRating } from 'react-simple-star-rating';
 
-export function Rating() {
-  const [rating, setRating] = useState(0);
-
-  const handleRating = (rate: number) => {
-    setRating(rate);
-  };
-
+type RatingProps = {
+  onClick: (rate: number) => void;
+};
+export function Rating({ onClick }: RatingProps) {
   return (
     <SimpleRating
-      onClick={handleRating}
+      onClick={onClick}
       SVGstyle={{ display: 'inline' }}
       size={24}
       // onPointerEnter={onPointerEnter}

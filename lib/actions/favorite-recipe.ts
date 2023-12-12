@@ -1,21 +1,24 @@
 'use server';
 
 import prisma from '@/lib/prisma';
+import { getCurrentUser } from '@/lib/service';
 
 type FavoriteRecipeParams = {
   recipeId: string;
-  userId: string;
 };
 
-export const addFavoriteRecipe = async ({
-  recipeId,
-  userId,
-}: FavoriteRecipeParams) => {
+export const addFavoriteRecipe = async ({ recipeId }: FavoriteRecipeParams) => {
   try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      throw new Error('Not authenticated');
+    }
+
     await prisma.favoriteUserRecipe.create({
       data: {
         recipeId,
-        userId,
+        userId: currentUser.id,
       },
     });
   } catch (error) {
@@ -25,6 +28,12 @@ export const addFavoriteRecipe = async ({
 
 export const deleteFavoriteRecipe = async (favoriteId: string) => {
   try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      throw new Error('Not authenticated');
+    }
+
     await prisma.favoriteUserRecipe.delete({
       where: {
         id: favoriteId,

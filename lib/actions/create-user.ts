@@ -38,6 +38,8 @@ export const createUser = async (
 
   const { name, email, password } = validatedFields.data;
 
+  const randomUserName = Math.random().toString(36).slice(-8);
+
   try {
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await prisma.user.create({
@@ -45,6 +47,7 @@ export const createUser = async (
         email,
         hashedPassword,
         name,
+        username: randomUserName,
       },
     });
 
