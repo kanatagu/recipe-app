@@ -37,6 +37,10 @@ export const Review = ({ reviews, currentUser, recipeId }: ReviewProps) => {
   );
   const [rating, setRating] = useState<number>(0);
 
+  const isUserPostedRecipe = currentUser?.postedRecipes.some(
+    (postedRecipe) => postedRecipe.id === recipeId
+  );
+
   const handleRating = useCallback((rate: number) => {
     setRating(rate);
   }, []);
@@ -69,7 +73,7 @@ export const Review = ({ reviews, currentUser, recipeId }: ReviewProps) => {
     <div className='flex flex-col gap-4'>
       <Heading as='h2'>Reviews ( {reviews.length} )</Heading>
 
-      {currentUser && (
+      {currentUser && !isUserPostedRecipe && (
         <form
           action={onSubmit}
           className='p-4 border flex flex-col gap-4 rounded-sm'
