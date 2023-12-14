@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 
+// TODO Fix orderBy
 export async function getPopularRecipes() {
   try {
     const recipes = await prisma.recipe.findMany({
@@ -7,9 +8,9 @@ export async function getPopularRecipes() {
         public: true,
       },
       take: 12,
-      orderBy: {
-        averageRating: 'desc',
-      },
+      // orderBy: {
+      //   averageRating: 'desc',
+      // },
     });
 
     const safeRecipes = recipes.map((recipe) => ({

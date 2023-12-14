@@ -23,6 +23,8 @@ export const features = [
   { id: Feature.PARTY, name: 'Party Food' },
   { id: Feature.ONE_POT_MEAL, name: 'One Pot Meal' },
   { id: Feature.HEALTHY, name: 'Healthy' },
+  { id: Feature.VEGETARIAN, name: 'Vegetarian' },
+  { id: Feature.VEGAN, name: 'Vegan' },
 ];
 
 export const cuisines = [

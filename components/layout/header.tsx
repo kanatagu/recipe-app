@@ -101,10 +101,10 @@ export function Header({ currentUser }: HeaderProps) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side='bottom'>
                       <DropdownMenuItem className='cursor-pointer text-lg w-36'>
-                        <Link href='posts'>My Posts</Link>
+                        <Link href='/posts'>My Posts</Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem className='cursor-pointer text-lg'>
-                        <Link href='posts'>Account</Link>
+                        <Link href='/account'>Account</Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem className='cursor-pointer text-lg'>

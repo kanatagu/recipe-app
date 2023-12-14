@@ -70,7 +70,9 @@ export function SignUpForm() {
       <Heading center>Create Your Account</Heading>
       <form action={dispatch} className='space-y-6 mt-8'>
         <div className='grid w-full max-w-sm items-center gap-1.5'>
-          <Label htmlFor='email'>Email</Label>
+          <Label htmlFor='email' isRequired>
+            Email
+          </Label>
           <Input
             type='email'
             id='email'
@@ -91,7 +93,9 @@ export function SignUpForm() {
         </div>
 
         <div className='grid w-full max-w-sm items-center gap-1.5'>
-          <Label htmlFor='name'>Name</Label>
+          <Label htmlFor='name' isRequired>
+            Name
+          </Label>
           <Input type='text' id='name' name='name' placeholder='John Doe' />
           {state?.errors?.name &&
             state.errors.name.map((error) => (
@@ -107,7 +111,9 @@ export function SignUpForm() {
         </div>
 
         <div className='grid w-full max-w-sm items-center gap-1.5'>
-          <Label htmlFor='password'>Password</Label>
+          <Label htmlFor='password' isRequired>
+            Password
+          </Label>
           <Input
             type='password'
             id='password'
@@ -128,7 +134,9 @@ export function SignUpForm() {
         </div>
 
         <div className='grid w-full max-w-sm items-center gap-1.5'>
-          <Label htmlFor='confirmationPassword'>Confirm Password</Label>
+          <Label htmlFor='confirmationPassword' isRequired>
+            Confirm Password
+          </Label>
           <Input
             type='password'
             id='confirmationPassword'

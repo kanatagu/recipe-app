@@ -32,7 +32,7 @@ export const EditDeleteButton = ({ recipeId }: EditDeleteButtonProps) => {
       <Button
         variant='outline'
         size='icon'
-        className='rounded-full bg-slate-50 text-primary border-slate-50'
+        className='rounded-full bg-slate-50 text-primary border-slate-50 hover:text-primary hover:bg-orange-50'
         aria-label='Edit Post'
         onClick={(e) => onClickHandler(e, 'edit')}
       >
@@ -41,7 +41,7 @@ export const EditDeleteButton = ({ recipeId }: EditDeleteButtonProps) => {
       <Button
         variant='outline'
         size='icon'
-        className='rounded-full bg-slate-50 text-primary border-slate-50'
+        className='rounded-full bg-slate-50 text-primary border-slate-50 hover:text-primary hover:bg-orange-50'
         aria-label='Delete Post'
       >
         <FiTrash2 />

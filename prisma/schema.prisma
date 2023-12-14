@@ -85,9 +85,9 @@ model Recipe {
   notes    String?
   public   Boolean   @default(false)
 
-  postedBy      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  favoriteBy    FavoriteUserRecipe[]
-  reviews       Review[]
+  postedBy   User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favoriteBy FavoriteUserRecipe[]
+  reviews    Review[]
 }
 
 model Review {
@@ -97,9 +97,9 @@ model Review {
   createdAt DateTime @default(now())
 
   reviewedBy User   @relation(fields: [userId], references: [id])
-  userId    String
-  recipe    Recipe @relation(fields: [recipeId], references: [id])
-  recipeId  String
+  userId     String
+  recipe     Recipe @relation(fields: [recipeId], references: [id])
+  recipeId   String
 }
 
 model FavoriteUserRecipe {
@@ -136,6 +136,8 @@ enum Feature {
   PARTY
   ONE_POT_MEAL
   HEALTHY
+  VEGETARIAN
+  VEGAN
 }
 
 enum Cuisine {
