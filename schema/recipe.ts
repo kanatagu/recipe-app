@@ -42,13 +42,11 @@ export const recipeSchema = z.object({
   servings: z.number().positive(),
   cookingTimeNumber: z.number().positive(),
   cookingTimeUnit: z.union([z.literal('minutes'), z.literal('hours')]),
-  level: z.array(
-    z.union([
-      z.literal(Level['EASY']),
-      z.literal(Level['MIDDLE']),
-      z.literal(Level['DIFFICULT']),
-    ])
-  ),
+  level: z.union([
+    z.literal(Level['EASY']),
+    z.literal(Level['MIDDLE']),
+    z.literal(Level['DIFFICULT']),
+  ]),
   meals: z.array(
     z.union([
       z.literal(Meal['BREAKFAST']),

@@ -7,9 +7,13 @@ import { Button } from '@/components/ui/button';
 
 type EditDeleteButtonProps = {
   recipeId: string;
+  large?: boolean;
 };
 
-export const EditDeleteButton = ({ recipeId }: EditDeleteButtonProps) => {
+export const EditDeleteButton = ({
+  recipeId,
+  large = false,
+}: EditDeleteButtonProps) => {
   const route = useRouter();
 
   const onClickHandler = (
@@ -28,23 +32,27 @@ export const EditDeleteButton = ({ recipeId }: EditDeleteButtonProps) => {
   };
 
   return (
-    <div className='absolute flex gap-2 items-center right-2 z-10'>
+    <div className='absolute flex gap-3 items-center right-2 z-10'>
       <Button
         variant='outline'
         size='icon'
-        className='rounded-full bg-slate-50 text-primary border-slate-50 hover:text-primary hover:bg-orange-50'
+        className={`rounded-full bg-orange-50 text-primary border-orange-50 hover:text-primary hover:bg-orange-100 ${
+          large ? 'w-14 h-14 ¥' : 'w-10 h-10'
+        }`}
         aria-label='Edit Post'
         onClick={(e) => onClickHandler(e, 'edit')}
       >
-        <FiEdit2 />
+        <FiEdit2 size={large ? 24 : 18} />
       </Button>
       <Button
         variant='outline'
         size='icon'
-        className='rounded-full bg-slate-50 text-primary border-slate-50 hover:text-primary hover:bg-orange-50'
+        className={`rounded-full bg-orange-50 text-primary border-slate-50 hover:text-primary hover:bg-orange-100 ${
+          large ? 'w-14 h-14' : 'w-10 h-10'
+        }`}
         aria-label='Delete Post'
       >
-        <FiTrash2 />
+        <FiTrash2 size={large ? 24 : 18} />
       </Button>
     </div>
   );

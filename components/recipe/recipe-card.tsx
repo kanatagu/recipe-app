@@ -24,11 +24,12 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
 
   const showThreeTags = () => {
     const allEnums = [...meals, ...features, ...cuisines, ...levels];
+    const levelArray = Object.entries(recipe.level);
     const allTags = [
       ...recipe.meals,
       ...recipe.cuisines,
       ...recipe.features,
-      ...recipe.level,
+      ...levelArray,
     ];
 
     const threeArray = allTags.slice(0, 3);

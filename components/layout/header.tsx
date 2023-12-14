@@ -11,12 +11,12 @@ import { Container, NavSp } from '@/components/layout';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarTrigger,
+} from '@/components/ui/menubar';
 
 import { useSignInModal } from '@/store';
 import { SafeUserType } from '@/types/user';
@@ -90,7 +90,79 @@ export function Header({ currentUser }: HeaderProps) {
                     </div>
                   </button>
 
-                  <DropdownMenu>
+                  <Menubar className='border-none justify-center gap-8 p-0'>
+                    <MenubarMenu>
+                      <MenubarTrigger className='p-0 rounded-full font-semibold hover:cursor-pointer hover:bg-white active:bg-white transition'>
+                        <Avatar>
+                          <AvatarImage src={currentUser?.image || ''} />
+                          <AvatarFallback>
+                            <FiUser />
+                          </AvatarFallback>
+                        </Avatar>
+                      </MenubarTrigger>
+                      <MenubarContent align='end'>
+                        <MenubarItem className='cursor-pointer text-lg font-semibold'>
+                          <Link href='/posts' className='w-full'>
+                            My Posts
+                          </Link>
+                        </MenubarItem>
+                        <MenubarItem className='cursor-pointer text-lg font-semibold'>
+                          <Link href='/account' className='w-full'>
+                            Account
+                          </Link>
+                        </MenubarItem>
+                        <MenubarItem className='cursor-pointer text-lg font-semibold'>
+                          <button
+                            className='flex items-center gap-2 w-full'
+                            onClick={logoutHandler}
+                          >
+                            <FiLogOut />
+                            Logout
+                          </button>
+                        </MenubarItem>
+                      </MenubarContent>
+                    </MenubarMenu>
+                  </Menubar>
+
+                  {/* <NavigationMenu>
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger className='gap-2 hover:bg-white'>
+                          <Avatar>
+                            <AvatarImage src={currentUser?.image || ''} />
+                            <AvatarFallback>
+                              <FiUser />
+                            </AvatarFallback>
+                          </Avatar>
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul>
+                            <li>
+                              <NavigationMenuLink>
+                                <Link href='/posts'>My Posts</Link>
+                              </NavigationMenuLink>
+                            </li>
+                            <li>
+                              <NavigationMenuLink>
+                                <Link href='/account'>Account</Link>
+                              </NavigationMenuLink>
+                            </li>
+                            <li>
+                              <button
+                                className='flex items-center gap-2 w-full'
+                                onClick={logoutHandler}
+                              >
+                                <FiLogOut />
+                                Logout
+                              </button>
+                            </li>
+                          </ul>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu> */}
+
+                  {/* <DropdownMenu>
                     <DropdownMenuTrigger>
                       <Avatar>
                         <AvatarImage src={currentUser?.image || ''} />
@@ -117,7 +189,7 @@ export function Header({ currentUser }: HeaderProps) {
                         </button>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
-                  </DropdownMenu>
+                  </DropdownMenu> */}
                 </>
               ) : (
                 <button className='flex items-center gap-2' onClick={onOpen}>

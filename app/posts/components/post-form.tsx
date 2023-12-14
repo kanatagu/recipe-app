@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -26,15 +27,18 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import { ImageUpload } from './image-upload';
 import { DynamicIngredients } from './dynamic-ingredients';
 import { DynamicDirections } from './dynamic-directions';
 
-import { createRecipe } from '@/lib/actions/create-recipe';
+import { createRecipe, uploadImage, ServerDirectionType } from '@/lib/actions';
 import { recipeResolver, RecipeSchema } from '@/schema';
 import { levels, meals, features, cuisines } from '@/constants';
 
 export const PostForm = () => {
+  const { toast } = useToast();
+  const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm<RecipeSchema>({
@@ -58,7 +62,7 @@ export const PostForm = () => {
       servings: 0,
       cookingTimeNumber: 0,
       cookingTimeUnit: 'minutes',
-      level: [],
+      level: 'EASY',
       meals: [],
       features: [],
       cuisines: [],
@@ -86,13 +90,58 @@ export const PostForm = () => {
 
   const onCreateRecipe: () => void = handleSubmit(
     async (data: RecipeSchema) => {
-      console.log({ data });
-      // const response = await createRecipe(data);
-      // console.log({ response });
+      let imageWithUrl = null;
+      let directionsWithUrl: ServerDirectionType[] = [];
+
+      try {
+        if (data.image) {
+          const formData = new FormData();
+          formData.append('image', data.image);
+          const res = await uploadImage(formData);
+          imageWithUrl = res?.url || null;
+        }
+
+        for (let i = 0; i < data.directions.length; i++) {
+          if (data.directions[i].image) {
+            const formData = new FormData();
+            formData.append('image', data.directions[i].image as File);
+            const res = await uploadImage(formData);
+            directionsWithUrl.push({
+              ...data.directions[i],
+              image: res?.url || null,
+            });
+          } else {
+            directionsWithUrl.push({
+              ...data.directions[i],
+              image: null,
+            });
+          }
+        }
+
+        const actionParam = {
+          ...data,
+          image: imageWithUrl,
+          directions: directionsWithUrl,
+        };
+
+        await createRecipe(actionParam);
+
+        router.refresh();
+        router.push('/posts');
+        toast({
+          variant: 'success',
+          title: 'Successfully created your recipe!',
+        });
+      } catch (error) {
+        toast({
+          variant: 'destructive',
+          title: 'Something went wrong...',
+          description: 'Please try again later.',
+        });
+        console.error(error);
+      }
     }
   );
-
-  console.log({ errors });
 
   return (
     <Form {...form}>
@@ -178,20 +227,21 @@ export const PostForm = () => {
                 <FormControl>
                   <Input
                     type='number'
-                    placeholder='4'
+                    placeholder='2'
                     {...field}
                     className='text-sm md:text-base w-28'
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value, 10);
+                      setValue('servings', value);
+                    }}
+                    value={watch('servings')}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div
-            className={`flex gap-2 ${
-              errors.cookingTimeNumber?.message ? 'items-center' : 'items-end'
-            }`}
-          >
+          <div className='flex gap-2 relative mr-24 items-end'>
             <FormField
               control={control}
               name='cookingTimeNumber'
@@ -206,6 +256,11 @@ export const PostForm = () => {
                       placeholder='30'
                       {...field}
                       className='text-sm md:text-base w-28'
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value, 10);
+                        setValue('cookingTimeNumber', value);
+                      }}
+                      value={watch('cookingTimeNumber')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -218,7 +273,11 @@ export const PostForm = () => {
               name='cookingTimeUnit'
               aria-label='cookingTimeUnit'
               render={({ field }) => (
-                <FormItem>
+                <FormItem
+                  className={`absolute top-8 ${
+                    errors.cookingTimeNumber?.message ? '-right-2' : '-right-24'
+                  }`}
+                >
                   <FormControl>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
@@ -259,7 +318,7 @@ export const PostForm = () => {
                   <Select onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className='w-32 '>
-                        <SelectValue placeholder='Select Level' />
+                        <SelectValue placeholder='Easy' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

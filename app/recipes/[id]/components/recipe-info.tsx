@@ -4,7 +4,7 @@ import { FiUser } from 'react-icons/fi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui';
-import { FavoriteButton, Stars } from '@/components/recipe';
+import { FavoriteButton, EditDeleteButton, Stars } from '@/components/recipe';
 import { Button } from '@/components/ui/button';
 import { Review } from './review';
 import { RecommendRecipes } from './recommend-recipes';
@@ -23,16 +23,24 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
 
   const averageRating = calculateAverageRating(recipe.reviews);
 
+  const isMyPost = currentUser?.postedRecipes.some(
+    (postedRecipe) => postedRecipe.id === recipe.id
+  );
+
   return (
     <div className='flex flex-col gap-6 sm:gap-10 mt-4 sm:mt-6'>
       <div className='relative flex flex-col gap-4 sm:gap-6'>
         <div className='flex items-center justify-between'>
           <Heading>{recipe.title}</Heading>
-          <FavoriteButton
-            currentUser={currentUser}
-            recipeId={recipe.id}
-            large
-          />
+          {isMyPost ? (
+            <EditDeleteButton recipeId={recipe.id} large/>
+          ) : (
+            <FavoriteButton
+              currentUser={currentUser}
+              recipeId={recipe.id}
+              large
+            />
+          )}
         </div>
 
         <div className='flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8'>
@@ -125,7 +133,7 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
 
       <div>
         <Heading as='h2'>Note</Heading>
-        <p className='mt-4 sm:text-lg'>{recipe.notes}</p>
+        <p className='mt-4 sm:text-lg'>{recipe.note}</p>
       </div>
 
       <Review
