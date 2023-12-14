@@ -1,11 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {
-  useFieldArray,
-  useWatch,
-  useFormContext,
-} from 'react-hook-form';
+import { useFieldArray, useWatch, useFormContext } from 'react-hook-form';
 import { FiX } from 'react-icons/fi';
 
 import {
@@ -38,6 +34,7 @@ export const DynamicDirections = () => {
   });
 
   const hasErrorForItem = Array.isArray(errors.directions);
+  const emptyArrayErrorMessage = errors?.directions?.root?.message;
 
   const onChangeUploadImage = (
     index: number,
@@ -100,57 +97,74 @@ export const DynamicDirections = () => {
 
   return (
     <div>
-      <FormLabel isRequired className='text-sm md:text-base'>
-        Directions
-      </FormLabel>
-      <div className='flex flex-col gap-8 mt-2'>
-        {fields.map((_, index) => (
-          <div key={index}>
-            <div className='flex items-center justify-between'>
-              <span className='font-semibold'>Step {index + 1}</span>
-              <Button
-                variant='outline'
-                size='icon'
-                className=' text-slate-500'
-                type='button'
-                onClick={() => remove(index)}
-              >
-                <FiX size={18} />
-              </Button>
-            </div>
-            <div className='flex flex-col sm:flex-row gap-4 mt-2 items-stretch'>
-              <FormField
-                control={control}
-                name={`directions.${index}.content`}
-                render={({ field }) => (
-                  <FormItem className='sm:w-full flex flex-col'>
-                    <FormControl>
-                      <Textarea
-                        placeholder='½ cup warm water'
-                        {...field}
-                        value={value[index]?.content || ''}
-                        className='text-sm md:text-base h-full sm:min-h-full'
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+      <FormField
+        control={control}
+        name='directions'
+        render={() => (
+          <FormItem>
+            <FormLabel className='text-sm md:text-base' isRequired>
+              Directions
+            </FormLabel>
+            <div className='flex flex-col gap-8 mt-2'>
+              {fields.map((_, index) => (
+                <div key={index}>
+                  <div className='flex items-center justify-between'>
+                    <span className='font-semibold'>Step {index + 1}</span>
+                    <Button
+                      variant='outline'
+                      size='icon'
+                      className=' text-slate-500'
+                      type='button'
+                      onClick={() => remove(index)}
+                    >
+                      <FiX size={18} />
+                    </Button>
+                  </div>
+                  <div className='flex flex-col sm:flex-row gap-4 mt-2 items-stretch'>
+                    <FormField
+                      control={control}
+                      name={`directions.${index}.content`}
+                      render={({ field }) => (
+                        <FormItem className='sm:w-full flex flex-col'>
+                          <FormControl>
+                            <Textarea
+                              placeholder='e.g. Preheat oven to 400°F (200°C).'
+                              {...field}
+                              value={value[index]?.content || ''}
+                              className='text-sm md:text-base h-full sm:min-h-full'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-              <div className='w-1/2 sm:w-2/5 '>
-                <ImageUpload
-                  onChangeUploadImage={(e) => onChangeUploadImage(index, e)}
-                  imagePreview={
-                    imagePreviews?.find(
-                      (preview) => preview.indexNumber === index
-                    )?.image || null
-                  }
-                />
-              </div>
+                    <div className='w-1/2 sm:w-2/5 '>
+                      <ImageUpload
+                        onChangeUploadImage={(e) =>
+                          onChangeUploadImage(index, e)
+                        }
+                        imagePreview={
+                          imagePreviews?.find(
+                            (preview) => preview.indexNumber === index
+                          )?.image || null
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
+          </FormItem>
+        )}
+      />
+
+      {emptyArrayErrorMessage && (
+        <p className='mt-1 text-sm font-medium text-destructive'>
+          {emptyArrayErrorMessage}
+        </p>
+      )}
+
       <Button
         type='button'
         variant='primaryOutline'
@@ -165,13 +179,6 @@ export const DynamicDirections = () => {
       >
         Add Direction
       </Button>
-
-      {/* Error Message for empty array */}
-      {errors?.directions?.root?.message && (
-        <p className='mt-1 text-sm font-medium text-destructive'>
-          {errors.directions.root.message}
-        </p>
-      )}
     </div>
   );
 };

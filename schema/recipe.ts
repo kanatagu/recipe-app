@@ -11,7 +11,8 @@ export const recipeSchema = z.object({
     .max(100, { message: 'Title must be less than 100 characters' }),
   description: z
     .string()
-    .max(300, { message: 'Description must be less than 500 characters' }),
+    .max(300, { message: 'Description must be less than 500 characters' })
+    .optional(),
   image: z.instanceof(File).nullable(),
   ingredients: z
     .array(
@@ -37,12 +38,10 @@ export const recipeSchema = z.object({
       })
     )
     .min(1, { message: 'At least 1 direction is required.' }),
-  servings: z.number().nullable(),
-  cookingTimeNumber: z.number().nullable(),
-  // TODO conditional validation
-  cookingTimeUnit: z
-    .union([z.literal('minutes'), z.literal('hours')])
-    .nullable(),
+  // TODO: refactor to nullable
+  servings: z.number().positive(),
+  cookingTimeNumber: z.number().positive(),
+  cookingTimeUnit: z.union([z.literal('minutes'), z.literal('hours')]),
   level: z.array(
     z.union([
       z.literal(Level['EASY']),
@@ -88,9 +87,8 @@ export const recipeSchema = z.object({
   ),
   note: z
     .string()
-    .max(300, { message: 'Note must be less than 300 characters' })
-    .nullable(),
-  public: z.boolean(),
+    .max(300, { message: 'Note must be less than 300 characters' }),
+  public: z.string(),
 });
 
 export type RecipeSchema = z.infer<typeof recipeSchema>;
