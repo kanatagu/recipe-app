@@ -95,30 +95,30 @@ export const FavoriteButton = ({
   if (isFavorite) {
     return (
       <Button
-        className={`absolute right-2 z-10 rounded-full border-none bg-red-200 hover:bg-red-100 ${
-          large ? 'w-14 h-14' : 'w-10 h-10'
+        className={`rounded-full border-none bg-red-200 hover:bg-red-100 ${
+          large ? 'sm:w-14 sm:h-14' : 'w-10 h-10'
         }`}
         variant='outline'
         size='icon'
         onClick={onDeleteHandler}
         aria-label='Remove from favorites'
       >
-        <FaHeart size={large ? 24 : 18} className='fill-rose-500' />
+        <FaHeart size={18} className='fill-rose-500' />
       </Button>
     );
   }
 
   return (
     <Button
-      className={`absolute right-2 z-10 rounded-full bg-white ${
-        large ? 'w-14 h-14' : 'w-10 h-10'
+      className={`z-10 rounded-full bg-white ${
+        large ? 'sm:w-14 sm:h-14' : 'w-10 h-10'
       }`}
       variant='outline'
       size='icon'
       onClick={onAddHandler}
       aria-label='Add to favorites'
     >
-      <FiHeart size={large ? 24 : 18} className='text-gray-400' />
+      <FiHeart size={18} className='text-gray-400' />
     </Button>
   );
 };

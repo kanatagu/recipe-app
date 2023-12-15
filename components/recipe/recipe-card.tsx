@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
@@ -47,45 +48,48 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
   const averageRating = calculateAverageRating(recipe.reviews);
 
   return (
-    <Card
-      className='group cursor-pointer flex flex-col'
-      onClick={() => router.push(`/recipes/${recipe.id}`)}
-    >
-      <CardHeader className='p-0 relative overflow-hidden'>
-        <AspectRatio ratio={3 / 2}>
-          <Image
-            fill
-            src={recipe.image || '/images/default_image.jpg'}
-            alt='Recipe Image'
-            className='object-cover h-full w-full group-hover:scale-110 transition'
-          />
-        </AspectRatio>
+    <div className='relative'>
+      <Link href={`/recipes/${recipe.id}`}>
+        <Card className='group cursor-pointer flex flex-col'>
+          <CardHeader className='p-0 relative overflow-hidden'>
+            <AspectRatio ratio={3 / 2}>
+              <Image
+                fill
+                src={recipe.image || '/images/default_image.jpg'}
+                alt='Recipe Image'
+                className='object-cover h-full w-full group-hover:scale-110 transition'
+              />
+            </AspectRatio>
+          </CardHeader>
 
+          <CardContent className='p-4 flex flex-col flex-grow'>
+            <div className='flex gap-3 flex-wrap flex-grow items-start'>
+              {showThreeTags().map((tag) => (
+                <Badge variant='outline' key={tag} className='flex-grow-0'>
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+
+            <div className='mt-3 line-clamp-3 group-hover:text-slate-600 transition'>
+              <Heading as='h2'>{recipe.title}</Heading>
+            </div>
+
+            <div className='mt-4 flex gap-4'>
+              <Stars rating={averageRating} />
+              <span className='text-sm'>{averageRating} rating</span>
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+
+      <div className='absolute right-2 top-2 z-10'>
         {isMyPost ? (
           <EditDeleteButton recipeId={recipe.id} />
         ) : (
           <FavoriteButton currentUser={currentUser} recipeId={recipe.id} />
         )}
-      </CardHeader>
-
-      <CardContent className='p-4 flex flex-col flex-grow'>
-        <div className='flex gap-3 flex-wrap flex-grow items-start'>
-          {showThreeTags().map((tag) => (
-            <Badge variant='outline' key={tag} className='flex-grow-0'>
-              {tag}
-            </Badge>
-          ))}
-        </div>
-
-        <div className='mt-3 line-clamp-3 group-hover:text-slate-600 transition'>
-          <Heading as='h2'>{recipe.title}</Heading>
-        </div>
-
-        <div className='mt-4 flex gap-4'>
-          <Stars rating={averageRating} />
-          <span className='text-sm'>{averageRating} rating</span>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
