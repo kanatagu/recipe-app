@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Input } from '@/components/ui/input';
@@ -37,14 +37,13 @@ import { parsedDirectionData } from '@/lib/utils';
 
 import { useCreateRecipe } from '../hooks/use-create-recipe';
 import { useEditRecipe } from '../hooks/use-edit-recipe';
+import { useMainImagePreview } from '../hooks/use-main-image-preview';
 
 type PropsFormProps = {
   recipe?: SafeRecipeDetailType;
 };
 
 export const PostForm = ({ recipe }: PropsFormProps) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
   const parsedDirections = useMemo(() => {
     if (!recipe?.directions)
       return [
@@ -85,10 +84,6 @@ export const PostForm = ({ recipe }: PropsFormProps) => {
     },
   });
 
-  useEffect(() => {
-    setImagePreview(recipe?.image || null);
-  }, [recipe?.image]);
-
   const {
     control,
     handleSubmit,
@@ -97,17 +92,11 @@ export const PostForm = ({ recipe }: PropsFormProps) => {
     watch,
   } = form;
 
+  const { imagePreview, onChangeUploadImage, deleteImage } =
+    useMainImagePreview(recipe?.image, setValue);
+
   const { onCreateRecipe } = useCreateRecipe();
   const { onEditRecipe } = useEditRecipe(recipe?.id);
-
-  const onChangeUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-
-    const fileObject = e.target.files[0];
-
-    setValue('image', fileObject);
-    setImagePreview(window.URL.createObjectURL(fileObject));
-  };
 
   const onAction: () => void = handleSubmit(
     recipe ? onEditRecipe : onCreateRecipe
@@ -170,10 +159,7 @@ export const PostForm = ({ recipe }: PropsFormProps) => {
                 variant='outline'
                 size='sm'
                 className='mt-2 text-right absolute -bottom-10 right-0'
-                onClick={() => {
-                  setValue('image', null);
-                  setImagePreview(null);
-                }}
+                onClick={deleteImage}
               >
                 Delete Photo
               </Button>
