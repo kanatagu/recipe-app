@@ -1,12 +1,12 @@
 'use client';
 
 import { FaHeart } from 'react-icons/fa';
-import { FiSearch, FiLogOut } from 'react-icons/fi';
+import { FiLogOut } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { RecipeSearch } from '@/components/recipe';
 
 import { SafeUserType } from '@/types';
 
@@ -38,8 +38,7 @@ export function NavSp({ isOpen, onClose, currentUser }: NavSpProps) {
     >
       <div className='h-full px-4 py-8 w-full'>
         <div className='flex items-center flex-start relative'>
-          <FiSearch className='absolute left-2' />
-          <Input placeholder='Search a recipe..' className='pl-8' />
+          <RecipeSearch />
         </div>
 
         {currentUser ? (

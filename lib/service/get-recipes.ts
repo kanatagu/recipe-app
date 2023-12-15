@@ -6,12 +6,14 @@ export type RecipeParams = {
   feature?: Feature;
   cuisine?: Cuisine;
   level?: Level;
+  searchWord?: string[] | string;
   take?: number;
 };
 
 export async function getRecipes(params: RecipeParams) {
   try {
-    const { meal, feature, cuisine, level, take } = params;
+    const { meal, feature, cuisine, level, searchWord, take } = params;
+    console.log('searchWord', searchWord);
 
     let query = {};
 
@@ -46,6 +48,35 @@ export async function getRecipes(params: RecipeParams) {
         },
       };
     }
+
+    // TODO search with keyword
+    if (searchWord) {
+      let searchStrings = searchWord;
+      if (Array.isArray(searchWord)) {
+        console.log('配列');
+        const searchAndQuery = searchWord.join(' & ');
+        searchStrings = searchAndQuery;
+      }
+      console.log('searchStrings', searchStrings);
+
+      // query = {
+      //   ...query,
+      //   title: {
+      //     search: searchStrings,
+      //   },
+      //   description: {
+      //     search: searchStrings,
+      //   },
+      //   ingredients: {
+      //     has: searchStrings,
+      //   },
+      //   note: {
+      //     search: searchStrings,
+      //   },
+      // };
+    }
+
+    console.log('query', query);
 
     const recipes = await prisma.recipe.findMany({
       where: {

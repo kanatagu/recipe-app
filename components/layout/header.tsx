@@ -3,12 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
-import { FiSearch, FiLogOut, FiMenu, FiX, FiUser } from 'react-icons/fi';
+import { FiLogOut, FiMenu, FiX, FiUser } from 'react-icons/fi';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import { Container, NavSp } from '@/components/layout';
-import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Menubar,
@@ -17,6 +16,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import { RecipeSearch } from '@/components/recipe';
 
 import { useSignInModal } from '@/store';
 import { SafeUserType } from '@/types/user';
@@ -74,16 +74,13 @@ export function Header({ currentUser }: HeaderProps) {
             />
 
             <div className='items-center hidden md:flex'>
-              <FiSearch className='relative left-7' />
-              <Input
-                placeholder='Search a recipe..'
-                className='pl-10 w-96 text-base'
-              />
+              <RecipeSearch />
             </div>
+
             <div className='gap-6 items-center hidden md:flex'>
               {currentUser ? (
                 <>
-                  <button onClick={likeHandler}>
+                  <button onClick={likeHandler} className='hover:opacity-80'>
                     <div className='flex gap-2 items-center font-semibold text-lg'>
                       <FaHeart size={22} className='fill-rose-500' />
                       Liked
@@ -92,7 +89,7 @@ export function Header({ currentUser }: HeaderProps) {
 
                   <Menubar className='border-none justify-center gap-8 p-0'>
                     <MenubarMenu>
-                      <MenubarTrigger className='p-0 rounded-full font-semibold hover:cursor-pointer hover:bg-white active:bg-white transition'>
+                      <MenubarTrigger className='p-0 rounded-full font-semibold hover:cursor-pointer hover: bg-white active:bg-white transition hover:opacity-80'>
                         <Avatar>
                           <AvatarImage src={currentUser?.image || ''} />
                           <AvatarFallback>

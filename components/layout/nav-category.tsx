@@ -1,6 +1,8 @@
 'use client';
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import qs from 'query-string';
+
 import {
   Menubar,
   MenubarContent,
@@ -26,6 +28,36 @@ export function NavCategory() {
     return searchParamValue === value;
   };
 
+  const routerPushWithQuery = (key: string, value?: string) => {
+    const searchWord = searchParams?.get('searchWord');
+
+    if (!value) {
+      const url = qs.stringifyUrl(
+        {
+          url: `/${key}`,
+          query: {
+            ...(searchWord && { searchWord: searchWord }),
+          },
+        },
+        { skipNull: true }
+      );
+      return router.push(url);
+    }
+
+    const url = qs.stringifyUrl(
+      {
+        url: '/',
+        query: {
+          [key]: value,
+          ...(searchWord && { searchWord: searchWord }),
+        },
+      },
+      { skipNull: true }
+    );
+
+    router.push(url);
+  };
+
   return (
     // TODO Change layout for SP
     <ScrollArea>
@@ -36,7 +68,8 @@ export function NavCategory() {
               className={`w-30 text-lg font-semibold hover:cursor-pointer hover:text-slate-500 transition ${
                 pathname === '/popular' && 'bg-slate-100'
               }`}
-              onClick={() => router.push('/popular')}
+              // onClick={() => router.push('/popular')}
+              onClick={() => routerPushWithQuery('popular')}
             >
               POPULAR
             </MenubarTrigger>
@@ -56,7 +89,8 @@ export function NavCategory() {
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
                     isActiveItem('meal', meal.id) && 'bg-slate-100'
                   }`}
-                  onClick={() => router.push(`/?meal=${meal.id}`)}
+                  // onClick={() => router.push(`/?meal=${meal.id}`)}
+                  onClick={() => routerPushWithQuery('meal', meal.id)}
                 >
                   {meal.name}
                 </MenubarItem>
@@ -78,7 +112,8 @@ export function NavCategory() {
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
                     isActiveItem('feature', feature.id) && 'bg-slate-100'
                   }`}
-                  onClick={() => router.push(`/?feature=${feature.id}`)}
+                  // onClick={() => router.push(`/?feature=${feature.id}`)}
+                  onClick={() => routerPushWithQuery('feature', feature.id)}
                 >
                   {feature.name}
                 </MenubarItem>
@@ -100,7 +135,8 @@ export function NavCategory() {
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
                     isActiveItem('cuisine', cuisine.id) && 'bg-slate-100'
                   }`}
-                  onClick={() => router.push(`/?cuisine=${cuisine.id}`)}
+                  // onClick={() => router.push(`/?cuisine=${cuisine.id}`)}
+                  onClick={() => routerPushWithQuery('cuisine', cuisine.id)}
                 >
                   {cuisine.name}
                 </MenubarItem>
@@ -122,7 +158,8 @@ export function NavCategory() {
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
                     isActiveItem('level', level.id) && 'bg-slate-100'
                   }`}
-                  onClick={() => router.push(`/?level=${level.id}`)}
+                  // onClick={() => router.push(`/?level=${level.id}`)}
+                  onClick={() => routerPushWithQuery('level', level.id)}
                 >
                   {level.name}
                 </MenubarItem>
