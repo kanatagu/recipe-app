@@ -7,9 +7,9 @@ import { Heading } from '@/components/ui';
 import { FavoriteButton, EditDeleteButton, Stars } from '@/components/recipe';
 import { Button } from '@/components/ui/button';
 import { Review } from './review';
-import { RecommendRecipes } from '@/app/recipes/[id]/components';
+import { RecommendRecipes } from './recommend-recipes';
 
-import { SafeRecipeDetailType, SafeUserType, RecipeDirection } from '@/types';
+import { SafeRecipeDetailType, SafeUserType, RecipeDirectionType } from '@/types';
 import { calculateAverageRating } from '@/lib/utils';
 
 type RecipeInfoProps = {
@@ -19,7 +19,7 @@ type RecipeInfoProps = {
 
 export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
   const directionsString = JSON.stringify(recipe.directions);
-  const directions: RecipeDirection[] = JSON.parse(directionsString);
+  const directions: RecipeDirectionType[] = JSON.parse(directionsString);
 
   const averageRating = calculateAverageRating(recipe.reviews);
 

@@ -1,4 +1,8 @@
-import { SafeReviewType } from '@/types';
+import {
+  SafeReviewType,
+  RecipeDirectionType,
+} from '@/types';
+import { Recipe } from '@prisma/client';
 
 export const calculateAverageRating = (
   reviews: SafeReviewType[] | undefined
@@ -12,4 +16,16 @@ export const calculateAverageRating = (
   }, 0);
 
   return totalRating / reviews.length;
+};
+
+export const parsedDirectionData = (
+  directions: Recipe['directions']
+) => {
+  const directionsString = JSON.stringify(directions);
+
+  if (directionsString) {
+    const parsedDirections: RecipeDirectionType[] =
+      JSON.parse(directionsString);
+    return parsedDirections;
+  }
 };

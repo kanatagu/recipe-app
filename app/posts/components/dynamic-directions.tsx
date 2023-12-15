@@ -13,11 +13,18 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { ImageUpload } from '@/app/posts/components';
+import { ImageUpload } from './image-upload';
 
 import { RecipeSchema } from '@/schema';
+import { RecipeDirectionType } from '@/types';
 
-export const DynamicDirections = () => {
+type DynamicDirectionsProps = {
+  defaultDirections: RecipeDirectionType[] | undefined;
+};
+
+export const DynamicDirections = ({
+  defaultDirections,
+}: DynamicDirectionsProps) => {
   const [imagePreviews, setImagePreviews] = useState<
     { indexNumber: number; image: string | null }[] | null
   >(null);
@@ -35,6 +42,50 @@ export const DynamicDirections = () => {
 
   const hasErrorForItem = Array.isArray(errors.directions);
   const emptyArrayErrorMessage = errors?.directions?.root?.message;
+
+  const value = useWatch({
+    name: 'directions',
+    control,
+  });
+
+  useEffect(() => {
+    if (defaultDirections) {
+      const previewArray = defaultDirections.map((direction, index) => ({
+        indexNumber: index,
+        image: direction.image,
+      }));
+      setImagePreviews(previewArray);
+    }
+  }, [defaultDirections]);
+
+  // Update step numbers and preview after each render as remove() will not update them
+  useEffect(() => {
+    fields.forEach((_, index) => {
+      setValue(`directions.${index}.step`, index + 1);
+    });
+
+    const newPreviews = fields.map((direction, index) => {
+      if (!direction.image)
+        return {
+          indexNumber: index,
+          image: null,
+        };
+
+      if (typeof direction.image === 'string') {
+        return {
+          indexNumber: index,
+          image: direction.image,
+        };
+      }
+
+      return {
+        indexNumber: index,
+        image: window.URL.createObjectURL(direction.image),
+      };
+    });
+
+    setImagePreviews(newPreviews);
+  }, [fields, setValue]);
 
   const onChangeUploadImage = (
     index: number,
@@ -66,34 +117,6 @@ export const DynamicDirections = () => {
       return;
     }
   };
-
-  const value = useWatch({
-    name: 'directions',
-    control,
-  });
-
-  useEffect(() => {
-    // Update step numbers after each render as remove() will not update the step numbers
-    fields.forEach((_, index) => {
-      setValue(`directions.${index}.step`, index + 1);
-    });
-
-    // Update file preview after each render as remove()
-    const newPreviews = fields.map((direction, index) => {
-      if (!direction.image)
-        return {
-          indexNumber: index,
-          image: null,
-        };
-
-      return {
-        indexNumber: index,
-        image: window.URL.createObjectURL(direction.image),
-      };
-    });
-
-    setImagePreviews(newPreviews);
-  }, [fields, setValue]);
 
   return (
     <div>

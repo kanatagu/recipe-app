@@ -13,7 +13,7 @@ export const recipeSchema = z.object({
     .string()
     .max(300, { message: 'Description must be less than 500 characters' })
     .optional(),
-  image: z.instanceof(File).nullable(),
+  image: z.instanceof(File).nullable().or(z.string().url()),
   ingredients: z
     .array(
       z.object({
@@ -34,7 +34,7 @@ export const recipeSchema = z.object({
           .max(500, {
             message: 'Description must be less than 500 characters',
           }),
-        image: z.instanceof(File).nullable(),
+        image: z.instanceof(File).nullable().or(z.string().url()),
       })
     )
     .min(1, { message: 'At least 1 direction is required.' }),

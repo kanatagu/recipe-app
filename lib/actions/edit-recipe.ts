@@ -10,7 +10,7 @@ type ServerRecipeType = Omit<RecipeSchema, 'image' | 'directions'> & {
   directions: RecipeDirectionType[];
 };
 
-export const createRecipe = async (formData: ServerRecipeType) => {
+export const editRecipe = async (formData: ServerRecipeType, id: string) => {
   try {
     const currentUser = await getCurrentUser();
 
@@ -26,18 +26,21 @@ export const createRecipe = async (formData: ServerRecipeType) => {
 
     const booleanPublic = publicType === 'true';
 
-    await prisma.recipe.create({
+    const recipe = await prisma.recipe.update({
+      where: {
+        id,
+        userId: currentUser.id,
+      },
       data: {
         ...formData,
         ingredients: stringIngredients,
         public: booleanPublic,
-        userId: currentUser.id,
       },
     });
 
     return;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to create recipe');
+    throw new Error('Failed to edit recipe');
   }
 };

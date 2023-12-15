@@ -1,3 +1,4 @@
+export { ClientWrapper } from './client-wrapper';
 export { Container } from './container';
 export { EmptyResult } from './empty-result';
 export { Header } from './header';

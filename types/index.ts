@@ -2,7 +2,7 @@ export type {
   SafeRecipeType,
   SafeRecipeDetailType,
   SafeFavoriteType,
-  RecipeDirection,
+  RecipeDirectionType,
   SafeReviewType,
 } from './recipe';
 export type { SafeUserType } from './user';

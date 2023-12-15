@@ -1,6 +1,6 @@
-import { Container } from '@/components/layout';
+import { Container, ClientWrapper } from '@/components/layout';
 import { Heading } from '@/components/ui';
-import { PostForm } from '@/app/posts/components';
+import { PostForm } from '../components/post-form';
 
 export default function CreatePost() {
   return (
@@ -8,7 +8,9 @@ export default function CreatePost() {
       <main>
         <div className='sm:mt-8'>
           <Heading>Add You Recipe</Heading>
-          <PostForm />
+          <ClientWrapper>
+            <PostForm />
+          </ClientWrapper>
         </div>
       </main>
     </Container>

@@ -20,13 +20,21 @@ export const EmptyResult = ({
     <div className='flex flex-col gap-4 mt-20 items-center'>
       <p className='text-xl'>{title}</p>
       <p className='text-lg'>{subtitle}</p>
-      {showReset && (
+      {showReset ? (
         <Button
           variant='outline'
           className='mt-4'
           onClick={() => router.push('/')}
         >
           Remove all filters
+        </Button>
+      ) : (
+        <Button
+          variant='outline'
+          className='mt-4'
+          onClick={() => router.push('/')}
+        >
+          Back to Top
         </Button>
       )}
     </div>

@@ -29,7 +29,7 @@ export type SafeFavoriteType = Omit<
   updatedAt: string | null;
 };
 
-export type RecipeDirection = {
+export type RecipeDirectionType = {
   step: number;
   content: string;
   image: string | null;

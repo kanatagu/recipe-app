@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -27,51 +26,68 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
-import {
-  DynamicIngredients,
-  DynamicDirections,
-  ImageUpload,
-} from '@/app/posts/components';
+import { DynamicIngredients } from './dynamic-ingredients';
+import { ImageUpload } from './image-upload';
+import { DynamicDirections } from './dynamic-directions';
 
-import { createRecipe, uploadImage, ServerDirectionType } from '@/lib/actions';
 import { recipeResolver, RecipeSchema } from '@/schema';
 import { levels, meals, features, cuisines } from '@/constants';
+import { SafeRecipeDetailType } from '@/types';
+import { parsedDirectionData } from '@/lib/utils';
 
-export const PostForm = () => {
-  const { toast } = useToast();
-  const router = useRouter();
+import { useCreateRecipe } from '../hooks/use-create-recipe';
+import { useEditRecipe } from '../hooks/use-edit-recipe';
+
+type PropsFormProps = {
+  recipe?: SafeRecipeDetailType;
+};
+
+export const PostForm = ({ recipe }: PropsFormProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const form = useForm<RecipeSchema>({
-    resolver: recipeResolver,
-    defaultValues: {
-      title: '',
-      description: '',
-      image: null,
-      ingredients: [
-        {
-          text: '',
-        },
-      ],
-      directions: [
+  const parsedDirections = useMemo(() => {
+    if (!recipe?.directions)
+      return [
         {
           image: null,
           step: 1,
           content: '',
         },
+      ];
+
+    return parsedDirectionData(recipe?.directions);
+  }, [recipe?.directions]);
+
+  const form = useForm<RecipeSchema>({
+    resolver: recipeResolver,
+    defaultValues: {
+      title: recipe?.title || '',
+      description: recipe?.description || '',
+      image: recipe?.image || null,
+      ingredients: recipe?.ingredients.map((ingredient) => ({
+        text: ingredient,
+      })) || [
+        {
+          text: '',
+        },
       ],
-      servings: 0,
-      cookingTimeNumber: 0,
-      cookingTimeUnit: 'minutes',
-      level: 'EASY',
-      meals: [],
-      features: [],
-      cuisines: [],
-      note: '',
-      public: 'false',
+      directions: parsedDirections,
+      servings: recipe?.servings || 0,
+      cookingTimeNumber: recipe?.cookingTimeNumber || 0,
+      cookingTimeUnit:
+        (recipe?.cookingTimeUnit as 'minutes' | 'hours') || 'minutes',
+      level: recipe?.level || 'EASY',
+      meals: recipe?.meals || [],
+      features: recipe?.features || [],
+      cuisines: recipe?.cuisines || [],
+      note: recipe?.note || '',
+      public: recipe?.public ? 'true' : 'false',
     },
   });
+
+  useEffect(() => {
+    setImagePreview(recipe?.image || null);
+  }, [recipe?.image]);
 
   const {
     control,
@@ -80,6 +96,9 @@ export const PostForm = () => {
     setValue,
     watch,
   } = form;
+
+  const { onCreateRecipe } = useCreateRecipe();
+  const { onEditRecipe } = useEditRecipe(recipe?.id);
 
   const onChangeUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -90,64 +109,13 @@ export const PostForm = () => {
     setImagePreview(window.URL.createObjectURL(fileObject));
   };
 
-  const onCreateRecipe: () => void = handleSubmit(
-    async (data: RecipeSchema) => {
-      let imageWithUrl = null;
-      let directionsWithUrl: ServerDirectionType[] = [];
-
-      try {
-        if (data.image) {
-          const formData = new FormData();
-          formData.append('image', data.image);
-          const res = await uploadImage(formData);
-          imageWithUrl = res?.url || null;
-        }
-
-        for (let i = 0; i < data.directions.length; i++) {
-          if (data.directions[i].image) {
-            const formData = new FormData();
-            formData.append('image', data.directions[i].image as File);
-            const res = await uploadImage(formData);
-            directionsWithUrl.push({
-              ...data.directions[i],
-              image: res?.url || null,
-            });
-          } else {
-            directionsWithUrl.push({
-              ...data.directions[i],
-              image: null,
-            });
-          }
-        }
-
-        const actionParam = {
-          ...data,
-          image: imageWithUrl,
-          directions: directionsWithUrl,
-        };
-
-        await createRecipe(actionParam);
-
-        router.refresh();
-        router.push('/posts');
-        toast({
-          variant: 'success',
-          title: 'Successfully created your recipe!',
-        });
-      } catch (error) {
-        toast({
-          variant: 'destructive',
-          title: 'Something went wrong...',
-          description: 'Please try again later.',
-        });
-        console.error(error);
-      }
-    }
+  const onAction: () => void = handleSubmit(
+    recipe ? onEditRecipe : onCreateRecipe
   );
 
   return (
     <Form {...form}>
-      <form action={onCreateRecipe} className='flex flex-col gap-14 mt-8'>
+      <form action={onAction} className='flex flex-col gap-14 mt-8'>
         <div className='flex flex-col sm:flex-row justify-between gap-6'>
           <div className='sm:w-1/2 flex flex-col gap-10'>
             <FormField
@@ -215,7 +183,7 @@ export const PostForm = () => {
 
         <DynamicIngredients />
 
-        <DynamicDirections />
+        <DynamicDirections defaultDirections={parsedDirections} />
 
         <div className='flex flex-col sm:flex-row gap-6 sm:gap-14'>
           <FormField
