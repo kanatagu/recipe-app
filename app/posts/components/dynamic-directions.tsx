@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { ImageUpload } from './image-upload';
+import { ImageUpload } from '@/app/posts/components';
 
 import { RecipeSchema } from '@/schema';
 

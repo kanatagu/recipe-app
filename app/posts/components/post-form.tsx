@@ -28,9 +28,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { ImageUpload } from './image-upload';
-import { DynamicIngredients } from './dynamic-ingredients';
-import { DynamicDirections } from './dynamic-directions';
+import {
+  DynamicIngredients,
+  DynamicDirections,
+  ImageUpload,
+} from '@/app/posts/components';
 
 import { createRecipe, uploadImage, ServerDirectionType } from '@/lib/actions';
 import { recipeResolver, RecipeSchema } from '@/schema';

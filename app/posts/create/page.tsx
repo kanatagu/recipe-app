@@ -1,6 +1,6 @@
 import { Container } from '@/components/layout';
 import { Heading } from '@/components/ui';
-import { PostForm } from '../components/post-form';
+import { PostForm } from '@/app/posts/components';
 
 export default function CreatePost() {
   return (

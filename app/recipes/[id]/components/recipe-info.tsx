@@ -7,7 +7,7 @@ import { Heading } from '@/components/ui';
 import { FavoriteButton, EditDeleteButton, Stars } from '@/components/recipe';
 import { Button } from '@/components/ui/button';
 import { Review } from './review';
-import { RecommendRecipes } from './recommend-recipes';
+import { RecommendRecipes } from '@/app/recipes/[id]/components';
 
 import { SafeRecipeDetailType, SafeUserType, RecipeDirection } from '@/types';
 import { calculateAverageRating } from '@/lib/utils';
@@ -33,7 +33,7 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
         <div className='flex items-center justify-between'>
           <Heading>{recipe.title}</Heading>
           {isMyPost ? (
-            <EditDeleteButton recipeId={recipe.id} large/>
+            <EditDeleteButton recipeId={recipe.id} large />
           ) : (
             <FavoriteButton
               currentUser={currentUser}

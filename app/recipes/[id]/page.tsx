@@ -1,6 +1,6 @@
 import { EmptyResult, NavCategory } from '@/components/layout';
 import { Container } from '@/components/layout';
-import { RecipeInfo } from './components/recipe-info';
+import { RecipeInfo } from '@/app/recipes/[id]/components';
 
 import { getCurrentUser, getRecipe } from '@/lib/service';
 
