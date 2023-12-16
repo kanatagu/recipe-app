@@ -15,73 +15,80 @@ export async function getRecipes(params: RecipeParams) {
     const { meal, feature, cuisine, level, searchWord, take } = params;
     console.log('searchWord', searchWord);
 
-    let query = {};
+    let query = [];
+    let searchStrings = '';
 
     if (meal) {
-      query = {
+      query.push({
         meals: {
           has: meal,
         },
-      };
+      });
     }
 
     if (feature) {
-      query = {
+      query.push({
         features: {
           has: feature,
         },
-      };
+      });
     }
 
     if (cuisine) {
-      query = {
+      query.push({
         cuisines: {
           has: cuisine,
         },
-      };
+      });
     }
 
     if (level) {
-      query = {
+      query.push({
         level: {
-          has: level,
+          equals: level,
         },
-      };
+      });
     }
 
-    // TODO search with keyword
     if (searchWord) {
-      let searchStrings = searchWord;
       if (Array.isArray(searchWord)) {
-        console.log('配列');
         const searchAndQuery = searchWord.join(' & ');
         searchStrings = searchAndQuery;
+      } else {
+        searchStrings = searchWord;
       }
-      console.log('searchStrings', searchStrings);
 
-      // query = {
-      //   ...query,
-      //   title: {
-      //     search: searchStrings,
-      //   },
-      //   description: {
-      //     search: searchStrings,
-      //   },
-      //   ingredients: {
-      //     has: searchStrings,
-      //   },
-      //   note: {
-      //     search: searchStrings,
-      //   },
-      // };
+      query.push(
+        {
+          title: {
+            search: searchStrings,
+          },
+        },
+        {
+          description: {
+            search: searchStrings,
+          },
+        },
+        {
+          ingredients: {
+            hasSome: [searchStrings],
+          },
+        },
+        {
+          note: {
+            search: searchStrings,
+          },
+        }
+      );
     }
-
-    console.log('query', query);
 
     const recipes = await prisma.recipe.findMany({
       where: {
-        public: true,
-        ...query,
+        ...(query && query.length
+          ? { OR: query, NOT: { public: false } }
+          : {
+              public: true,
+            }),
       },
       include: {
         reviews: true,

@@ -66,7 +66,7 @@ export function NavCategory() {
           <MenubarMenu>
             <MenubarTrigger
               className={`w-30 text-lg font-semibold hover:cursor-pointer hover:text-slate-500 transition ${
-                pathname === '/popular' && 'bg-slate-100'
+                pathname === '/popular' && 'bg-slate-100 font-bold'
               }`}
               // onClick={() => router.push('/popular')}
               onClick={() => routerPushWithQuery('popular')}
@@ -77,7 +77,7 @@ export function NavCategory() {
           <MenubarMenu>
             <MenubarTrigger
               className={`w-30 text-lg font-semibold hover:cursor-pointer hover:text-slate-500 transition ${
-                isActiveCategory('meal') && 'bg-slate-100'
+                isActiveCategory('meal') && 'bg-slate-100 font-bold'
               }`}
             >
               MEALS
@@ -87,7 +87,7 @@ export function NavCategory() {
                 <MenubarItem
                   key={meal.id}
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
-                    isActiveItem('meal', meal.id) && 'bg-slate-100'
+                    isActiveItem('meal', meal.id) && 'bg-slate-100 font-bold'
                   }`}
                   // onClick={() => router.push(`/?meal=${meal.id}`)}
                   onClick={() => routerPushWithQuery('meal', meal.id)}
@@ -100,7 +100,7 @@ export function NavCategory() {
           <MenubarMenu>
             <MenubarTrigger
               className={`w-30 text-lg font-semibold hover:cursor-pointer hover:text-slate-500 transition ${
-                isActiveCategory('feature') && 'bg-slate-100'
+                isActiveCategory('feature') && 'bg-slate-100 font-bold'
               }`}
             >
               FEATURES
@@ -110,7 +110,8 @@ export function NavCategory() {
                 <MenubarItem
                   key={feature.id}
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
-                    isActiveItem('feature', feature.id) && 'bg-slate-100'
+                    isActiveItem('feature', feature.id) &&
+                    'bg-slate-100 font-bold'
                   }`}
                   // onClick={() => router.push(`/?feature=${feature.id}`)}
                   onClick={() => routerPushWithQuery('feature', feature.id)}
@@ -123,7 +124,7 @@ export function NavCategory() {
           <MenubarMenu>
             <MenubarTrigger
               className={`w-30 text-lg font-semibold hover:cursor-pointer hover:text-slate-500 transition ${
-                isActiveCategory('cuisine') && 'bg-slate-100'
+                isActiveCategory('cuisine') && 'bg-slate-100 font-bold'
               }`}
             >
               CUISINES
@@ -133,7 +134,8 @@ export function NavCategory() {
                 <MenubarItem
                   key={cuisine.id}
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
-                    isActiveItem('cuisine', cuisine.id) && 'bg-slate-100'
+                    isActiveItem('cuisine', cuisine.id) &&
+                    'bg-slate-100 font-bold'
                   }`}
                   // onClick={() => router.push(`/?cuisine=${cuisine.id}`)}
                   onClick={() => routerPushWithQuery('cuisine', cuisine.id)}
@@ -146,7 +148,7 @@ export function NavCategory() {
           <MenubarMenu>
             <MenubarTrigger
               className={`w-30 text-lg font-semibold hover:cursor-pointer hover:text-slate-500 transition ${
-                isActiveCategory('level') && 'bg-slate-100'
+                isActiveCategory('level') && 'bg-slate-100 font-bold'
               }`}
             >
               LEVELS
@@ -156,7 +158,7 @@ export function NavCategory() {
                 <MenubarItem
                   key={level.id}
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
-                    isActiveItem('level', level.id) && 'bg-slate-100'
+                    isActiveItem('level', level.id) && 'bg-slate-100 font-bold'
                   }`}
                   // onClick={() => router.push(`/?level=${level.id}`)}
                   onClick={() => routerPushWithQuery('level', level.id)}
