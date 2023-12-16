@@ -5,9 +5,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui';
 import { FavoriteButton, EditDeleteButton, Stars } from '@/components/recipe';
-import { Button } from '@/components/ui/button';
 import { Review } from './review';
 import { RecommendRecipes } from './recommend-recipes';
+import { PrintButton } from './print-button';
 
 import {
   SafeRecipeDetailType,
@@ -47,7 +47,7 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
         <div className='flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8'>
           <div className='flex items-center gap-2'>
             <Avatar>
-              <AvatarImage src={currentUser?.image || ''} />
+              <AvatarImage src={recipe.postedBy.image || ''} />
               <AvatarFallback>
                 <FiUser />
               </AvatarFallback>
@@ -93,8 +93,8 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
                 <span>{recipe.cookingTimeUnit}</span>
               </div>
             </div>
-            {/* TODO Print */}
-            <Button>PRINT</Button>
+
+            <PrintButton recipe={recipe} />
           </div>
           <Separator className='my-3' />
         </div>
