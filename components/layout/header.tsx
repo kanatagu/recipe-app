@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
-import { FiLogOut, FiMenu, FiX, FiUser } from 'react-icons/fi';
+import { FiLogOut, FiUser } from 'react-icons/fi';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -16,6 +15,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import { Button } from '@/components/ui/button';
 import { RecipeSearch } from '@/components/recipe';
 
 import { useSignInModal } from '@/store';
@@ -27,12 +27,6 @@ type HeaderProps = {
 
 export function Header({ currentUser }: HeaderProps) {
   const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const spNavClose = () => {
-    setIsMenuOpen(false);
-  };
-
   const { onOpen } = useSignInModal();
 
   const likeHandler = () => {
@@ -50,28 +44,19 @@ export function Header({ currentUser }: HeaderProps) {
   };
 
   return (
-    <header className='fixed w-full bg-white z-20 shadow-sm'>
-      <div className='py-4 border-b-[1px]'>
+    <header className='sticky top-0 z-40'>
+      <div className='w-full bg-white py-2 md:py-4 border-b-[1px] shadow-sm'>
         <Container main={false}>
           <div className='flex justify-between items-center'>
-            <div onClick={() => setIsMenuOpen(false)}>
+            <div>
               <Link href='/' className='hover:opacity-80'>
                 Recipe
               </Link>
             </div>
 
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className='md:hidden'
-            >
-              {isMenuOpen ? <FiX size='34' /> : <FiMenu size='34' />}
-            </button>
-
-            <NavSp
-              isOpen={isMenuOpen}
-              onClose={spNavClose}
-              currentUser={currentUser}
-            />
+            <div className='md:hidden'>
+              <NavSp currentUser={currentUser} />
+            </div>
 
             <div className='items-center hidden md:flex'>
               <RecipeSearch />
@@ -80,16 +65,20 @@ export function Header({ currentUser }: HeaderProps) {
             <div className='gap-6 items-center hidden md:flex'>
               {currentUser ? (
                 <>
-                  <button onClick={likeHandler} className='hover:opacity-80'>
+                  <Button
+                    onClick={likeHandler}
+                    className='hover:opacity-80 hover:bg-white'
+                    variant='ghost'
+                  >
                     <div className='flex gap-2 items-center font-semibold text-lg'>
                       <FaHeart size={22} className='fill-rose-500' />
                       Liked
                     </div>
-                  </button>
+                  </Button>
 
                   <Menubar className='border-none justify-center gap-8 p-0'>
                     <MenubarMenu>
-                      <MenubarTrigger className='p-0 rounded-full font-semibold hover:cursor-pointer hover: bg-white active:bg-white transition hover:opacity-80'>
+                      <MenubarTrigger className='group p-0 rounded-full font-semibold hover:cursor-pointer transition hover:opacity-70'>
                         <Avatar>
                           <AvatarImage src={currentUser?.image || ''} />
                           <AvatarFallback>
@@ -97,16 +86,18 @@ export function Header({ currentUser }: HeaderProps) {
                           </AvatarFallback>
                         </Avatar>
                       </MenubarTrigger>
-                      <MenubarContent align='end'>
-                        <MenubarItem className='cursor-pointer text-lg font-semibold'>
-                          <Link href='/posts' className='w-full'>
-                            My Posts
-                          </Link>
+                      <MenubarContent align='end' hideWhenDetached={true}>
+                        <MenubarItem
+                          className='cursor-pointer text-lg font-semibold'
+                          onClick={() => router.push('/posts')}
+                        >
+                          My Posts
                         </MenubarItem>
-                        <MenubarItem className='cursor-pointer text-lg font-semibold'>
-                          <Link href='/account' className='w-full'>
-                            Account
-                          </Link>
+                        <MenubarItem
+                          className='cursor-pointer text-lg font-semibold'
+                          onClick={() => router.push('/account')}
+                        >
+                          Account
                         </MenubarItem>
                         <MenubarItem className='cursor-pointer text-lg font-semibold'>
                           <button

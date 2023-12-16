@@ -24,7 +24,7 @@ export default async function RootLayout({
     <html lang='en'>
       <body className={font.className}>
         <Header currentUser={currentUser} />
-        <div className='pt-24'>{children}</div>
+        <div className='pt-4'>{children}</div>
 
         <SignInModal />
         <SignUpModal />

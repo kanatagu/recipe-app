@@ -49,17 +49,17 @@ export const RecipeSearch = () => {
   };
 
   return (
-    <>
-      <FiSearch className='relative left-7' />
+    <div className='flex items-center relative'>
+      <FiSearch className='absolute left-3' />
       <Input
         type={'text'}
         name={'searchWord'}
         placeholder='Search a recipe..'
         aria-label='Search a recipe'
-        className='pl-10 w-96 text-base'
+        className='pl-10 md:w-96 text-base'
         onKeyDown={(e) => submitByEnter(e)}
         ref={inputRef}
       />
-    </>
+    </div>
   );
 };
