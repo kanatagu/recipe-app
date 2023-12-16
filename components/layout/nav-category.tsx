@@ -59,7 +59,6 @@ export function NavCategory() {
   };
 
   return (
-    // TODO Change layout for SP
     <ScrollArea>
       <nav className='md:pt-2 pb-6'>
         <Menubar className='border-none justify-center gap-8 p-0'>
@@ -68,7 +67,6 @@ export function NavCategory() {
               className={`w-30 text-lg font-semibold hover:cursor-pointer hover:text-slate-500 transition ${
                 pathname === '/popular' && 'bg-slate-100 font-bold'
               }`}
-              // onClick={() => router.push('/popular')}
               onClick={() => routerPushWithQuery('popular')}
             >
               POPULAR
@@ -89,7 +87,6 @@ export function NavCategory() {
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
                     isActiveItem('meal', meal.id) && 'bg-slate-100 font-bold'
                   }`}
-                  // onClick={() => router.push(`/?meal=${meal.id}`)}
                   onClick={() => routerPushWithQuery('meal', meal.id)}
                 >
                   {meal.name}
@@ -113,7 +110,6 @@ export function NavCategory() {
                     isActiveItem('feature', feature.id) &&
                     'bg-slate-100 font-bold'
                   }`}
-                  // onClick={() => router.push(`/?feature=${feature.id}`)}
                   onClick={() => routerPushWithQuery('feature', feature.id)}
                 >
                   {feature.name}
@@ -137,7 +133,6 @@ export function NavCategory() {
                     isActiveItem('cuisine', cuisine.id) &&
                     'bg-slate-100 font-bold'
                   }`}
-                  // onClick={() => router.push(`/?cuisine=${cuisine.id}`)}
                   onClick={() => routerPushWithQuery('cuisine', cuisine.id)}
                 >
                   {cuisine.name}
@@ -160,7 +155,6 @@ export function NavCategory() {
                   className={`text-md py-4 px-2 hover:cursor-pointer ${
                     isActiveItem('level', level.id) && 'bg-slate-100 font-bold'
                   }`}
-                  // onClick={() => router.push(`/?level=${level.id}`)}
                   onClick={() => routerPushWithQuery('level', level.id)}
                 >
                   {level.name}

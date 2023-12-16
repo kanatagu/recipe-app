@@ -2,9 +2,9 @@ import { useRouter } from 'next/navigation';
 
 import { useToast } from '@/components/ui/use-toast';
 
-import { createRecipe, uploadImage} from '@/lib/actions';
+import { createRecipe, uploadImage } from '@/lib/actions';
 import { RecipeSchema } from '@/schema';
-import {  RecipeDirectionType } from '@/types';
+import { RecipeDirectionType } from '@/types';
 
 export const useCreateRecipe = () => {
   const { toast } = useToast();
@@ -47,8 +47,8 @@ export const useCreateRecipe = () => {
 
       await createRecipe(actionParam);
 
-      router.refresh();
       router.push('/posts');
+      router.refresh();
       toast({
         variant: 'success',
         title: 'Successfully created your recipe!',

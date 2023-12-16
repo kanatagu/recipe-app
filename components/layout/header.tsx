@@ -5,6 +5,7 @@ import { FaHeart } from 'react-icons/fa';
 import { FiLogOut, FiUser } from 'react-icons/fi';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import { Container, NavSp } from '@/components/layout';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -45,12 +46,18 @@ export function Header({ currentUser }: HeaderProps) {
 
   return (
     <header className='sticky top-0 z-40'>
-      <div className='w-full bg-white py-2 md:py-4 border-b-[1px] shadow-sm'>
+      <div className='w-full bg-white py-2 md:py-3 border-b-[1px] shadow-sm'>
         <Container main={false}>
           <div className='flex justify-between items-center'>
-            <div>
+            <div className='w-[90px] sm:w-[118px]'>
               <Link href='/' className='hover:opacity-80'>
-                Recipe
+                <Image
+                  src='/images/logo/logo.png'
+                  width={118}
+                  height={48}
+                  alt='logo'
+                  // className='h-11 object-contain'
+                />
               </Link>
             </div>
 

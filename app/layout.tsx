@@ -11,7 +11,7 @@ const font = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Recipe App',
-  description: 'You can find recipes here.',
+  description: 'You can find home recipes here.',
 };
 
 export default async function RootLayout({

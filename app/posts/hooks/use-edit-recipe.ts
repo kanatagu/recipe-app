@@ -4,7 +4,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 import { editRecipe, uploadImage } from '@/lib/actions';
 import { RecipeSchema } from '@/schema';
-import {  RecipeDirectionType } from '@/types';
+import { RecipeDirectionType } from '@/types';
 
 export const useEditRecipe = (id: string | undefined) => {
   const { toast } = useToast();

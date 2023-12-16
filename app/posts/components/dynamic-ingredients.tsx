@@ -1,6 +1,6 @@
 'use client';
 
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { FiX } from 'react-icons/fi';
 
 import {
@@ -24,6 +24,11 @@ export const DynamicIngredients = () => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'ingredients',
+  });
+
+  const value = useWatch({
+    name: 'ingredients',
+    control,
   });
 
   const emptyArrayErrorMessage = errors?.ingredients?.root?.message;
@@ -51,6 +56,7 @@ export const DynamicIngredients = () => {
                           <Input
                             placeholder='½ cup warm water'
                             {...field}
+                            value={value[index]?.text || ''}
                             className='text-sm md:text-base'
                           />
                         </FormControl>
