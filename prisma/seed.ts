@@ -41,8 +41,26 @@ async function main() {
     data: review(recipeIds[0], user2.id),
   });
 
+  await prisma.recipe.update({
+    where: {
+      id: recipeIds[0],
+    },
+    data: {
+      averageRating: review(recipeIds[0], user2.id).rating,
+    },
+  });
+
   await prisma.review.create({
     data: review(recipeIds[1], user2.id),
+  });
+
+  await prisma.recipe.update({
+    where: {
+      id: recipeIds[1],
+    },
+    data: {
+      averageRating: review(recipeIds[1], user2.id).rating,
+    },
   });
 
   console.log('Seed data created successfully');

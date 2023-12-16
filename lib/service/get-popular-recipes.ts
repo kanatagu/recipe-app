@@ -1,16 +1,59 @@
 import prisma from '@/lib/prisma';
 
-// TODO Fix orderBy
-export async function getPopularRecipes() {
+export type RecipePopularParams = {
+  searchWord?: string[] | string;
+};
+
+export async function getPopularRecipes(params: RecipePopularParams) {
+  const { searchWord } = params;
+  let query = [];
+  let searchStrings = '';
+
+  if (searchWord) {
+    if (Array.isArray(searchWord)) {
+      const searchAndQuery = searchWord.join(' & ');
+      searchStrings = searchAndQuery;
+    } else {
+      searchStrings = searchWord;
+    }
+
+    query.push(
+      {
+        title: {
+          search: searchStrings,
+        },
+      },
+      {
+        description: {
+          search: searchStrings,
+        },
+      },
+      {
+        ingredients: {
+          hasSome: [searchStrings],
+        },
+      },
+      {
+        note: {
+          search: searchStrings,
+        },
+      }
+    );
+  }
+
   try {
     const recipes = await prisma.recipe.findMany({
       where: {
-        public: true,
+        ...(query && query.length
+          ? { OR: query, NOT: { public: false } }
+          : {
+              public: true,
+            }),
       },
       take: 12,
-      // orderBy: {
-      //   averageRating: 'desc',
-      // },
+      orderBy: {
+        averageRating: { sort: 'desc', nulls: 'last' },
+      },
     });
 
     const safeRecipes = recipes.map((recipe) => ({

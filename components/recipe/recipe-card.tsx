@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -13,7 +12,6 @@ import { FavoriteButton, EditDeleteButton } from '@/components/recipe';
 
 import { SafeRecipeType, SafeUserType } from '@/types';
 import { meals, features, cuisines, levels } from '@/constants';
-import { calculateAverageRating } from '@/lib/utils';
 
 type RecipeCardProps = {
   recipe: SafeRecipeType;
@@ -21,8 +19,6 @@ type RecipeCardProps = {
 };
 
 export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
-  const router = useRouter();
-
   const showThreeTags = () => {
     const allEnums = [...meals, ...features, ...cuisines, ...levels];
     const allTags = [
@@ -45,8 +41,6 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
     (postedRecipe) => postedRecipe.id === recipe.id
   );
 
-  const averageRating = calculateAverageRating(recipe.reviews);
-
   return (
     <div className='relative'>
       <Link href={`/recipes/${recipe.id}`}>
@@ -54,7 +48,8 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
           <CardHeader className='p-0 relative overflow-hidden'>
             <AspectRatio ratio={3 / 2}>
               <Image
-                fill
+                width={640}
+                height={427}
                 src={recipe.image || '/images/default_image.jpg'}
                 alt='Recipe Image'
                 className='object-cover h-full w-full group-hover:scale-110 transition'
@@ -76,8 +71,10 @@ export function RecipeCard({ recipe, currentUser }: RecipeCardProps) {
             </div>
 
             <div className='mt-4 flex gap-4'>
-              <Stars rating={averageRating} />
-              <span className='text-sm'>{averageRating} rating</span>
+              <Stars rating={recipe.averageRating || 0} />
+              <span className='text-sm'>
+                {recipe.averageRating || 0} rating
+              </span>
             </div>
           </CardContent>
         </Card>

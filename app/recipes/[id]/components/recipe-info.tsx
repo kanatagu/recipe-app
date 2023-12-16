@@ -9,8 +9,11 @@ import { Button } from '@/components/ui/button';
 import { Review } from './review';
 import { RecommendRecipes } from './recommend-recipes';
 
-import { SafeRecipeDetailType, SafeUserType, RecipeDirectionType } from '@/types';
-import { calculateAverageRating } from '@/lib/utils';
+import {
+  SafeRecipeDetailType,
+  SafeUserType,
+  RecipeDirectionType,
+} from '@/types';
 
 type RecipeInfoProps = {
   recipe: SafeRecipeDetailType;
@@ -20,8 +23,6 @@ type RecipeInfoProps = {
 export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
   const directionsString = JSON.stringify(recipe.directions);
   const directions: RecipeDirectionType[] = JSON.parse(directionsString);
-
-  const averageRating = calculateAverageRating(recipe.reviews);
 
   const isMyPost = currentUser?.postedRecipes.some(
     (postedRecipe) => postedRecipe.id === recipe.id
@@ -54,9 +55,9 @@ export const RecipeInfo = async ({ recipe, currentUser }: RecipeInfoProps) => {
             <div>{recipe.postedBy.username}</div>
           </div>
           <div className='flex gap-4 items-center'>
-            <span>{averageRating} rating</span>
+            <span>{recipe.averageRating || 0} rating</span>
             <div className='flex gap-2'>
-              <Stars rating={averageRating} />
+              <Stars rating={recipe.averageRating || 0} />
               <span>( {recipe.reviews.length} )</span>
             </div>
           </div>

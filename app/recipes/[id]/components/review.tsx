@@ -49,7 +49,7 @@ export const Review = ({ reviews, currentUser, recipeId }: ReviewProps) => {
     setErrorMessage(null);
     await createReview(formData, recipeId)
       .then((res) => {
-        if (res?.errors) {
+        if ('errors' in res) {
           setErrorMessage(res);
           return;
         }

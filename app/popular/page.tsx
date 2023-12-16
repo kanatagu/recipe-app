@@ -3,10 +3,18 @@ import { Container } from '@/components/layout';
 import { Heading } from '@/components/ui';
 import { RecipeCard } from '@/components/recipe';
 
-import { getCurrentUser, getPopularRecipes } from '@/lib/service';
+import {
+  getCurrentUser,
+  getPopularRecipes,
+  RecipePopularParams,
+} from '@/lib/service';
 
-export default async function Popular() {
-  const popularRecipes = await getPopularRecipes();
+type PopularProps = {
+  searchParams: RecipePopularParams;
+};
+
+export default async function Popular({ searchParams }: PopularProps) {
+  const popularRecipes = await getPopularRecipes(searchParams);
   const currentUser = await getCurrentUser();
 
   return (

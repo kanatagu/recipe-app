@@ -13,7 +13,6 @@ export type RecipeParams = {
 export async function getRecipes(params: RecipeParams) {
   try {
     const { meal, feature, cuisine, level, searchWord, take } = params;
-    console.log('searchWord', searchWord);
 
     let query = [];
     let searchStrings = '';

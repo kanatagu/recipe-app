@@ -12,35 +12,62 @@ export const createReview = async (formData: FormData, recipeId: string) => {
 
   if (!validatedFields.success) {
     return {
+      status: 'Error',
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
 
-  const { rating, comment } = validatedFields.data;
-
   try {
-    const currentUser = await getCurrentUser();
+    const { rating, comment } = validatedFields.data;
 
-    if (!currentUser) {
-      throw new Error('User not found');
-    }
+    return prisma.$transaction(async (tx) => {
+      const currentUser = await getCurrentUser();
 
-    const review = await prisma.review.create({
-      data: {
-        rating,
-        comment,
-        recipeId,
-        userId: currentUser.id,
-      },
+      if (!currentUser) {
+        throw new Error('User not found');
+      }
+
+      if (!currentUser) {
+        throw new Error('User not found');
+      }
+
+      const review = await tx.review.create({
+        data: {
+          rating,
+          comment,
+          recipeId,
+          userId: currentUser.id,
+        },
+      });
+
+      // Get all review to calculate average rating
+      const reviews = await tx.review.findMany({
+        where: {
+          recipeId,
+        },
+      });
+
+      // update recipe average rating
+      const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
+      const averageRating = totalRating / reviews.length;
+
+      await tx.recipe.update({
+        where: {
+          id: recipeId,
+        },
+        data: {
+          averageRating,
+        },
+      });
+
+      return {
+        status: 'Success',
+        values: {
+          rating: review.rating,
+          comment: review.comment,
+        },
+      };
     });
-
-    return {
-      status: 'Success',
-      values: {
-        rating: review.rating,
-        comment: review.comment,
-      },
-    };
   } catch (error) {
     throw new Error('Failed to create review');
   }

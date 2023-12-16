@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -83,12 +83,13 @@ model Recipe {
   meals    Meal[]
   features Feature[]
   cuisines Cuisine[]
-  note    String?
+  note     String?
   public   Boolean   @default(false)
 
-  postedBy   User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  favoriteBy FavoriteUserRecipe[]
-  reviews    Review[]
+  postedBy      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favoriteBy    FavoriteUserRecipe[]
+  reviews       Review[]
+  averageRating Float?
 }
 
 model Review {
