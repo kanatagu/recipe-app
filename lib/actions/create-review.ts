@@ -49,7 +49,8 @@ export const createReview = async (formData: FormData, recipeId: string) => {
 
       // update recipe average rating
       const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
-      const averageRating = totalRating / reviews.length;
+      const averageRating =
+        Math.floor((totalRating / reviews.length) * 10) / 10;
 
       await tx.recipe.update({
         where: {

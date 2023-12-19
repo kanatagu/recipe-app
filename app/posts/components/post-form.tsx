@@ -235,7 +235,10 @@ export const PostForm = ({ recipe }: PropsFormProps) => {
                   }`}
                 >
                   <FormControl>
-                    <Select onValueChange={field.onChange}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder='minutes' />
@@ -271,7 +274,10 @@ export const PostForm = ({ recipe }: PropsFormProps) => {
               <FormItem>
                 <FormLabel className='text-sm md:text-base'>Level</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className='w-32 '>
                         <SelectValue placeholder='Easy' />
