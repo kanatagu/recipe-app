@@ -6,10 +6,9 @@ import { useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { signIn } from 'next-auth/react';
 
-import { SubmitButton } from '@/components/ui/submit-button';
+import { Heading, SubmitButton } from '@/components/ui';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Heading } from '@/components/ui';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';

@@ -3,10 +3,10 @@
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { SubmitButton } from '@/components/ui';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { SubmitButton } from '@/components/ui/submit-button';
 import {
   Form,
   FormControl,

@@ -1,6 +1,4 @@
-import { FiUser } from 'react-icons/fi';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AccountRow } from './account-row';
 
 type AccountInfoProps = {
   id: string;
@@ -17,43 +15,16 @@ export const AccountInfo = ({
   image,
 }: AccountInfoProps) => {
   return (
-    <div className='flex flex-col gap-4 w-3/4 mx-auto'>
-      <div className='border-solid border-b'>
-        <h2 className='font-semibold'>Name</h2>
-        <div className='flex justify-between py-2 items-center'>
-          <div>{name}</div>
-          <Button variant={'outline'}>Edit</Button>
-        </div>
-      </div>
-
-      <div className='border-solid border-b'>
-        <h2 className='font-semibold'>Username</h2>
-        <div className='flex justify-between py-2 items-center'>
-          <div>{username}</div>
-          <Button variant={'outline'}>Edit</Button>
-        </div>
-      </div>
-
-      <div className='border-solid border-b'>
-        <h2 className='font-semibold'>Email</h2>
-        <div className='flex justify-between py-2 items-center'>
-          <div>{email}</div>
-          <Button variant={'outline'}>Edit</Button>
-        </div>
-      </div>
-
-      <div className='border-solid border-b'>
-        <h2 className='font-semibold'>Image</h2>
-        <div className='flex justify-between py-2 items-center'>
-          <Avatar>
-            <AvatarImage src={image || ''} />
-            <AvatarFallback>
-              <FiUser />
-            </AvatarFallback>
-          </Avatar>
-          <Button variant={'outline'}>Edit</Button>
-        </div>
-      </div>
+    <div className='flex flex-col gap-4 w-full md:w-3/4 mx-auto'>
+      <AccountRow label={'Name'} defaultValue={name} name='name' />
+      <AccountRow label={'Username'} defaultValue={username} name='username' />
+      <AccountRow label={'Email'} defaultValue={email} name='email' />
+      <AccountRow
+        label={'Image'}
+        defaultValue={image || ''}
+        isImage
+        name='image'
+      />
     </div>
   );
 };

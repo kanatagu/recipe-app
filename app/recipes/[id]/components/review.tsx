@@ -5,12 +5,11 @@ import { useRouter } from 'next/navigation';
 import { FiUser } from 'react-icons/fi';
 import { format } from 'date-fns';
 
-import { Heading } from '@/components/ui';
+import { Heading, SubmitButton } from '@/components/ui';
 import { Stars, Rating } from '@/components/recipe';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/components/ui/use-toast';
-import { SubmitButton } from '@/components/ui/submit-button';
 import { Input } from '@/components/ui/input';
 
 import { SafeReviewType, SafeUserType } from '@/types';
