@@ -154,7 +154,7 @@ export const DynamicDirections = ({
                               placeholder='e.g. Preheat oven to 400°F (200°C).'
                               {...field}
                               value={value[index]?.content || ''}
-                              className='text-sm md:text-base h-full sm:min-h-full'
+                              className='text-sm md:text-base h-full min-h-[120px]'
                             />
                           </FormControl>
                           <FormMessage />

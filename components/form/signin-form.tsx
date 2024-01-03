@@ -44,11 +44,11 @@ export function SignInForm() {
       redirect: false,
     }).then((callback) => {
       if (callback?.ok) {
-        router.refresh();
         onSignInClose();
 
         if (pathname === '/signin') {
           router.push('/');
+          router.refresh();
         }
       }
 
@@ -132,7 +132,7 @@ export function SignInForm() {
         <Button
           variant='outline'
           className='w-full flex items-center gap-4 mt-6'
-          onClick={() => signIn('google')}
+          onClick={() => signIn('google', { callbackUrl: '/' })}
         >
           <FcGoogle className='h-4 w-4' />
           Sign in with Google

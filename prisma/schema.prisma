@@ -17,7 +17,7 @@ model User {
   emailVerified  DateTime?
   hashedPassword String?
   name           String
-  username       String
+  username       String?
   image          String?
   favorites      FavoriteUserRecipe[]
   postedRecipes  Recipe[]

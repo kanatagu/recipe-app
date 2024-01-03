@@ -67,7 +67,7 @@ export function SignUpForm() {
   return (
     <div>
       <Heading center>Create Your Account</Heading>
-      <form action={dispatch} className='space-y-6 mt-8'>
+      <form action={dispatch} className='space-y-5 mt-8'>
         <div className='grid w-full max-w-sm items-center gap-1.5'>
           <Label htmlFor='email' isRequired>
             Email
@@ -175,7 +175,7 @@ export function SignUpForm() {
           Sign up with Google
         </Button>
       </div>
-      <div className='text-center mt-8 text-neutral-500 font-light'>
+      <div className='text-center mt-6 text-neutral-500 font-light'>
         <p>Already have an account?</p>
         <button
           className='text-neutral-800 cursor-pointer hover:underline'

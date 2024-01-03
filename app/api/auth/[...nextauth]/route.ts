@@ -6,6 +6,12 @@ import { compare } from 'bcrypt';
 
 import prisma from '@/lib/prisma';
 
+declare module 'next-auth' {
+  interface User {
+    username?: string | null;
+  }
+}
+
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -55,6 +61,25 @@ export const authOptions: AuthOptions = {
     strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async signIn({ user }) {
+      // For Google sign in users, we need to generate a random username
+      if (user.email) {
+        const existedUser = await prisma.user.findUnique({
+          where: { email: user.email },
+        });
+
+        if (existedUser && existedUser.username) {
+          return true;
+        }
+
+        const randomUserName = Math.random().toString(36).slice(-8);
+        user.username = randomUserName;
+      }
+
+      return true;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
