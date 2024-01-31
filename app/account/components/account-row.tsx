@@ -9,21 +9,38 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
+import { updateAccount } from '@/lib/actions';
+
 type AccountRowProps = {
   label: string;
   defaultValue: string;
   isImage?: boolean;
   placeholder?: string;
   name: string;
+  type: string;
   onAction?: () => Promise<void>;
 };
+
 export const AccountRow = ({
   label,
   defaultValue,
   isImage,
   placeholder,
+  name,
+  type,
 }: AccountRowProps) => {
   const [isOpenForm, setIsOpenForm] = useState(false);
+
+  const initialState = {
+    errors: {},
+    values: {},
+    message: null,
+    status: null,
+  };
+
+  const [state, dispatch] = useFormState(updateAccount, initialState);
+
+  console.log('state', state);
 
   if (isImage)
     return (
@@ -31,11 +48,13 @@ export const AccountRow = ({
         <h2 className='font-semibold'>{label}</h2>
         <div className='flex justify-between py-2 items-center'>
           {isOpenForm ? (
-            <form className='flex w-full flex-wrap gap-y-2 justify-end md:justify-between'>
+            <form
+              action={dispatch}
+              className='flex w-full flex-wrap gap-y-2 justify-end md:justify-between'
+            >
               <Input
-                type='email'
-                id='email'
-                name='email'
+                type={type}
+                name={name}
                 placeholder={placeholder}
                 defaultValue={defaultValue}
                 className='w-full md:w-[340px]'
@@ -74,11 +93,13 @@ export const AccountRow = ({
       <h2 className='font-semibold'>{label}</h2>
       <div className='flex justify-between py-2 items-center'>
         {isOpenForm ? (
-          <form className='flex w-full flex-wrap gap-y-2 justify-end md:justify-between'>
+          <form
+            action={dispatch}
+            className='flex w-full flex-wrap gap-y-2 justify-end md:justify-between'
+          >
             <Input
-              type='email'
-              id='email'
-              name='email'
+              type={type}
+              name={name}
               placeholder={placeholder}
               defaultValue={defaultValue}
               className='w-full md:w-[340px]'

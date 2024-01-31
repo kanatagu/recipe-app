@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useFieldArray, useWatch, useFormContext } from 'react-hook-form';
 import { FiX } from 'react-icons/fi';
-
 import {
   FormControl,
   FormField,
