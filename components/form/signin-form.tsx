@@ -45,6 +45,7 @@ export function SignInForm() {
     }).then((callback) => {
       if (callback?.ok) {
         onSignInClose();
+        router.refresh();
 
         if (pathname === '/signin') {
           router.push('/');

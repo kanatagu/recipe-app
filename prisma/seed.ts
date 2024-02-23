@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { recipes, recipe } from './seedData/recipe';
+import { recipes2, recipes1 } from './seedData/recipe';
 import { user1 as user1Data, user2 as user2Data } from './seedData/user';
 import { review } from './seedData/review';
 
@@ -23,43 +23,47 @@ async function main() {
   });
 
   // Recipes by user1
-  const recipeIds = [];
-  for (const recipe of recipes(user1.id)) {
+  const recipeIds1 = [];
+  for (const recipe of recipes1(user1.id)) {
     const createdRecipe = await prisma.recipe.create({
       data: recipe,
     });
-    recipeIds.push(createdRecipe.id);
+    recipeIds1.push(createdRecipe.id);
   }
 
   // Recipe by user2
-  await prisma.recipe.create({
-    data: recipe(user2.id),
-  });
+  const recipeIds2 = [];
+  for (const recipe of recipes2(user2.id)) {
+    const createdRecipe = await prisma.recipe.create({
+      data: recipe,
+    });
+    recipeIds2.push(createdRecipe.id);
+  }
 
-  // Review by user2
+  // Review by user1
   await prisma.review.create({
-    data: review(recipeIds[0], user2.id),
+    data: review(recipeIds2[0], user1.id),
   });
 
   await prisma.recipe.update({
     where: {
-      id: recipeIds[0],
+      id: recipeIds2[0],
     },
     data: {
-      averageRating: review(recipeIds[0], user2.id).rating,
+      averageRating: review(recipeIds2[0], user1.id).rating,
     },
   });
 
   await prisma.review.create({
-    data: review(recipeIds[1], user2.id),
+    data: review(recipeIds2[1], user1.id),
   });
 
   await prisma.recipe.update({
     where: {
-      id: recipeIds[1],
+      id: recipeIds2[1],
     },
     data: {
-      averageRating: review(recipeIds[1], user2.id).rating,
+      averageRating: review(recipeIds2[1], user1.id).rating,
     },
   });
 
