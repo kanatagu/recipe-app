@@ -9,6 +9,8 @@ email: test@test.com
 password: password
 ```
 
+![screencapture-localhost-3000-2024-02-23-11_57_51](https://github.com/kanatagu/recipe-app/assets/66394413/6633928b-6a52-4c18-a9d3-5a7ae898f941)
+
 ## Features
 
 - Authentication
