@@ -1,46 +1,35 @@
 # Recipe App
 
-## Install tools
-* docker mac
+This recipe app lets users publish and add recipes to their favourite list.
 
-## Running DB (postgresql)
-DB Container Start
-```bash
-docker compose up
-or
-docker compose up -d
+You can play around with the following test user or create a new account after you set up the local environment.
+
+```
+email: test@test.com
+password: password
 ```
 
-DB Container Stop
-```bash
-docker compose down
-```
+## Features
 
-## Set Up Prisma
-```bash
-npx prisma migrate reset
-```
+- Authentication
+- CRUD Recipe Post with image Upload and dynamic form
+- Search recipe
+- Filter recipe
+- Add to favourite list
+- Review
 
-## Running dev
-Install dependencies
-```bash
-npm install
-```
+## Requirements
 
-Start dev mode
-```bash
-npm run dev
-```
+- Node v20.8.0 or above
+- Docker
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
+### Env file
 
-
-
-## Env file
 Create .env file in root directory
 
-* You need get own Google client API and Cloudinary API.
+- You need get own Google client API and Cloudinary API.
 
 ```
 DB_NAME=
@@ -58,3 +47,46 @@ NEXT_PUBLIC_CLOUDINARY_PRESET=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
+
+### Start running PostgreSQL in docker
+
+DB Container Start
+
+```bash
+docker compose up
+or
+docker compose up -d
+```
+
+DB Container Stop
+
+```bash
+docker compose down
+```
+
+### DB Migration
+
+```bash
+npx prisma migrate reset
+```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+## Running with dev mode
+
+Start dev mode
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Upcoming Features
+
+- Update Account
+- Change More Recipes to more related recipes
