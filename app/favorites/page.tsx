@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import { EmptyResult, NavCategory } from '@/components/layout';
 import { Container } from '@/components/layout';
 import { Heading } from '@/components/ui';
@@ -6,8 +7,13 @@ import { RecipeCard } from '@/components/recipe';
 import { getCurrentUser, getFavorites } from '@/lib/service';
 
 export default async function Favorites() {
-  const favoriteRecipes = await getFavorites();
   const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    redirect('/login');
+  }
+
+  const favoriteRecipes = await getFavorites();
 
   return (
     <Container>

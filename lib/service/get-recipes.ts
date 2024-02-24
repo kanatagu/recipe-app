@@ -1,4 +1,4 @@
-import { Level, Meal, Feature, Cuisine } from '@prisma/client';
+import type { Level, Meal, Feature, Cuisine } from '@prisma/client';
 import prisma from '@/lib/prisma';
 
 export type RecipeParams = {
@@ -10,9 +10,15 @@ export type RecipeParams = {
   take?: number;
 };
 
-export async function getRecipes(params: RecipeParams) {
+export async function getRecipes({
+  meal,
+  feature,
+  cuisine,
+  level,
+  searchWord,
+  take,
+}: RecipeParams) {
   try {
-    const { meal, feature, cuisine, level, searchWord, take } = params;
 
     let query = [];
     let searchStrings = '';

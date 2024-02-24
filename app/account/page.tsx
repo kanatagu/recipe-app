@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import { Container } from '@/components/layout';
 import { Heading } from '@/components/ui';
 import { AccountInfo } from './components/account-info';
@@ -8,7 +9,7 @@ export default async function Account() {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    throw new Error('No current user');
+    redirect('/login');
   }
 
   return (
