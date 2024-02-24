@@ -1,4 +1,4 @@
-import { hash } from 'bcrypt';
+import { hash } from 'bcryptjs';
 
 export const user1 = async () => {
   const randomUserName = Math.random().toString(36).slice(-8);

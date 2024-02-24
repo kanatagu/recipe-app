@@ -20,7 +20,7 @@ export default async function Account() {
             <AccountInfo
               id={currentUser.id}
               name={currentUser.name}
-              username={currentUser.username}
+              username={currentUser.username || ''}
               email={currentUser.email}
               image={currentUser.image}
             />

@@ -4,7 +4,7 @@ const nextConfig = {
     domains: ['res.cloudinary.com', 'lh3.googleusercontent.com'],
   },
   experimental: {
-    serverComponentsExternalPackages: ['@prisma.client', 'bcrypt'],
+    serverComponentsExternalPackages: ['@prisma.client', 'bcryptjs'],
   },
 };
 
