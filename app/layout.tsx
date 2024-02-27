@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 import { Header } from '@/components/layout';
 import { SignInModal, SignUpModal } from '@/components/modal';
@@ -29,6 +30,8 @@ export default async function RootLayout({
         <SignInModal />
         <SignUpModal />
         <Toaster />
+
+        <Analytics />
       </body>
     </html>
   );
